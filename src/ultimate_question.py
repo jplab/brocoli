@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 r"""
-Sage Sample
+Limit Roots of Coxeter Groups
 
-This module computes the answer to the Ultimate Question of Life,
-the Universe, and Everything, as defined in [HGG]_ using the power
-of Catalan numbers from SageMath.
+This module provide tools to study the limit roots of Coxeter groups.
+
 
 EXAMPLES ::
 
@@ -20,7 +19,8 @@ REFERENCES:
 
 AUTHORS:
 
-- Viviane Pons: initial implementation
+- Jean-Philippe Labbé (2011-2017): initial implementation
+- Vivien Ripoll (2012): added features
 """
 from sage.combinat.combinat import catalan_number
 
