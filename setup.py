@@ -14,25 +14,25 @@ def readfile(filename):
 # For the tests
 class SageTest(TestCommand):
     def run_tests(self):
-        errno = os.system("sage -t --force-lib sage_sample")
+        errno = os.system("sage -t --force-lib liroco")
         if errno != 0:
             sys.exit(1)
 
 setup(
-    name = "sage_sample",
+    name = "liroco",
     version = readfile("VERSION"), # the VERSION file is shared with the documentation
-    description='An example of a basic sage package',
+    description='A Sage package to work with limit roots of Coxeter groups',
     long_description = readfile("README.rst"), # get the long description from the README
     url='https://github.com/nthiery/sage_sample',
-    author='Nicolas M. Thiéry, Viviane Pons',
-    author_email='viviane.pons@lri.fr', # choose a main contact email
+    author='Jean-Philippe Labbé',
+    author_email='labbe@math.fu-berlin.de', # choose a main contact email
     license='GPLv2+', # This should be consistent with the LICENCE file
     classifiers=[
       # How mature is this project? Common values are
       #   3 - Alpha
       #   4 - Beta
       #   5 - Production/Stable
-      'Development Status :: 4 - Beta',
+      'Development Status :: 3 - Alpha',
       'Intended Audience :: Science/Research',
       'Topic :: Software Development :: Build Tools',
       'Topic :: Scientific/Engineering :: Mathematics',
@@ -40,6 +40,6 @@ setup(
       'Programming Language :: Python :: 2.7',
     ], # classifiers list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords = "SageMath packaging",
-    packages = ['sage_sample'],
+    packages = ['liroco'],
     cmdclass = {'test': SageTest} # adding a special setup command for tests
 )
