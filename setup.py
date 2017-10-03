@@ -1,9 +1,8 @@
 ## -*- encoding: utf-8 -*-
 import os
 import sys
-from setuptools import setup
+from distutils.core import setup
 from codecs import open # To open the README file with proper encoding
-from setuptools.command.test import test as TestCommand # for tests
 
 
 # Get information from separate files (README, VERSION)
@@ -11,18 +10,18 @@ def readfile(filename):
     with open(filename,  encoding='utf-8') as f:
         return f.read()
 
-# For the tests
-class SageTest(TestCommand):
-    def run_tests(self):
-        errno = os.system("sage -t --force-lib liroco")
-        if errno != 0:
-            sys.exit(1)
+# # For the tests
+# class SageTest(TestCommand):
+#     def run_tests(self):
+#         errno = os.system("sage -t --force-lib brocoli")
+#         if errno != 0:
+#             sys.exit(1)
 
 setup(
-    name = "liroco",
+    name = "brocoli",
     version = readfile("VERSION"), # the VERSION file is shared with the documentation
     description='A Sage package to work with limit roots of Coxeter groups',
-    long_description = readfile("README.rst"), # get the long description from the README
+    long_description = readfile("README"), # get the long description from the README
     url='https://github.com/nthiery/sage_sample',
     author='Jean-Philippe Labbé',
     author_email='labbe@math.fu-berlin.de', # choose a main contact email
@@ -39,7 +38,6 @@ setup(
       'License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)',
       'Programming Language :: Python :: 2.7',
     ], # classifiers list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
-    keywords = "SageMath packaging",
-    packages = ['liroco'],
-    cmdclass = {'test': SageTest} # adding a special setup command for tests
+    keywords = "SageMath",
+    packages = ['brocoli'],
 )

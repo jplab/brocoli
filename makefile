@@ -1,7 +1,7 @@
 # This Makefile is for convenience as a reminder and shortcut for the most used commands
 
 # Package folder
-PACKAGE = sage_sample
+PACKAGE = brocoli
 
 # change to your sage command if needed
 SAGE = sage
@@ -18,7 +18,7 @@ develop:
 	$(SAGE) -pip install --upgrade -e .
 
 test:
-	$(SAGE) setup.py test
+	$(SAGE) -t --force-lib brocoli
 
 coverage:
 	$(SAGE) -coverage $(PACKAGE)/*
@@ -33,5 +33,8 @@ clean: clean-doc
 
 clean-doc:
 	cd docs && $(SAGE) -sh -c "make clean"
+
+sdist:
+	$(SAGE) -python setup.py sdist
 
 .PHONY: all install develop test coverage clean clean-doc doc doc-pdf
