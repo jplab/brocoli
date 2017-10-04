@@ -120,7 +120,6 @@ REFERENCES:
 
     - C. Hohlweg and J.-P. Labbe, On inversion sets and the weak order in
       Coxeter groups, European J. Combin. {\bf 55} (2016), 1--19.
- DOI: 10.1007/s10107-016-1099-y
 
 AUTHORS:
 
@@ -128,7 +127,7 @@ AUTHORS:
 - Vivien Ripoll (2011-2013): Added more options and functionalities
 """
 
-#*****************************************************************************
+##############################################################################
 #     Copyright (C) 2011 Jean-Philippe Labbe <labbe at math.fu-berlin.de>
 #                   2011 Vivien Ripoll < vivien.ripoll at univie.ac.at>
 #
@@ -137,7 +136,7 @@ AUTHORS:
 # the Free Software Foundation, either version 2 of the License, or
 # (at your option) any later version.
 #                  http://www.gnu.org/licenses/
-#*****************************************************************************
+##############################################################################
 
 from sage.arith.srange import xsrange
 
