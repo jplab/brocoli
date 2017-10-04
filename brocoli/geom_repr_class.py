@@ -166,6 +166,10 @@ def affinely_project_vector(vect, projection_space, affine_basis):
         sage: v = vector([1,2,3])
         sage: affinely_project_vector(v,PS,ab)
         (1.1666666666666665, 0.8660254037844386)
+        sage: UCF.<E> = UniversalCyclotomicField()
+        sage: u = vector(UCF, [2 + E(8) - E(8)^3, 1, E(8) - E(8)^3])
+        sage: affinely_project_vector(u,PS,ab)
+        (0.585786437626905, 0.4202659980740251)
 
         sage: v = vector([1,-4,3])
         sage: affinely_project_vector(v,PS,ab)
@@ -175,13 +179,15 @@ def affinely_project_vector(vect, projection_space, affine_basis):
     """
     dim = len(affine_basis)
     # There is a bug converting from UCF and AA to RDF
-    height = CDF(sum(vect)).real()
+    # height = CDF(sum(vect)).real()
+    height = RDF(sum(vect))
 
     if height == 0:
         raise ValueError("The vector {} does not have an affine image in the affine basis".format(vect.__repr__()))
 
 #    Nvect = vect.parent()([i/sum(vect) for i in vect])
-    Nvect = vector([CDF(i).real()/height for i in vect])
+    # Nvect = vector([CDF(i).real()/height for i in vect])
+    Nvect = vector([RDF(i)/height for i in vect])
     image = projection_space(sum(Nvect[j]*affine_basis[j] for j in range(dim)))
 
     return image
