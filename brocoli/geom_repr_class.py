@@ -107,13 +107,13 @@ def reflection_image(reflection_vector, element, bilin_form_matrix):
 
     INPUT:
 
-    - ``reflection_vector`` : A non-isotropic (pseudonorm 1)-vector to reflect with.
-    - ``element`` : A vector to reflect
-    - ``bilin_form_matrix`` : the matrix of the bilinear form
+    - ``reflection_vector`` -- vector; a non-isotropic (pseudonorm 1)-vector to reflect with
+    - ``element`` -- vector; a vector that will be reflected
+    - ``bilin_form_matrix`` -- matrix; the matrix giving the bilinear form
 
     OUTPUT:
 
-    The reflected vector.
+    The reflected vector
 
     EXAMPLES::
 
@@ -149,9 +149,9 @@ def affinely_project_vector(vect, projection_space, affine_basis):
 
     INPUT:
 
-    - ``vect`` : vector to project
-    - ``projection_space`` : the affine space where to project
-    - ``affine_basis`` : The image of the basis of the vector space of ``vect`` under a
+    - ``vect`` -- vector; the vector that is to project
+    - ``projection_space`` -- vector space; the affine space where to project
+    - ``affine_basis`` -- list of vectors; the image of the basis of the vector space of ``vect`` under a
       projection to the affine space ``projection_space``
 
     OUTPUT:
@@ -160,7 +160,7 @@ def affinely_project_vector(vect, projection_space, affine_basis):
 
     EXAMPLES::
 
-       sage: from brocoli import *
+        sage: from brocoli import *
         sage: PS = VectorSpace(RDF, 2)
         sage: ab = regular_simplex_vertices(2)
         sage: v = vector([1,2,3])
@@ -200,12 +200,11 @@ def regular_simplex_vertices(dim):
 
     INPUT:
 
-    - ``dim``: The dimension of the desired simplex (not always the dimension of
-      `vector_space`)
+    - ``dim`` : integer; the dimension of the desired simplex
 
     OUTPUT:
 
-    A list of vectors, the vertices of a regular simplex.
+    A list of vectors, the vertices of a regular simplex
 
     EXAMPLES::
 
@@ -238,15 +237,15 @@ def regular_simplex_vertices(dim):
         raise NotImplementedError("dimension >=4")
 
 
-def plot_simplex(size, col=(0, 1, 0)):
+def plot_simplex(size, color=(0, 1, 0)):
     """
     This function returns a graphical element representing the regular simplex
     in dimension 2 or 3
 
     INPUT:
 
-    - ``size`` : the number of vertices of the simplex
-    - ``col`` : a rgb vector
+    - ``size`` -- integer; the number of vertices of the simplex
+    - ``color`` -- a rgb vector; the color of the simplex
 
     OUTPUT:
 
@@ -279,14 +278,14 @@ def plot_simplex(size, col=(0, 1, 0)):
         for i in range(4):
             for j in range(4):
                 if i < j:  # Adding the edges of the simplex
-                    simplex_image += line([simplex_vertices[i], simplex_vertices[j]], color=col, thickness=2)
+                    simplex_image += line([simplex_vertices[i], simplex_vertices[j]], color=color, thickness=2)
     elif size == 3:  # Adding the edges of the simplex
-        simplex_image = line([(0, 0), (1, sqrt(3))], color=col) + \
-                line([(0, 0), (2, 0)], color=col) + \
-                line([(2, 0), (1, sqrt(3))], color=col)
+        simplex_image = line([(0, 0), (1, sqrt(3))], color=color) + \
+                line([(0, 0), (2, 0)], color=color) + \
+                line([(2, 0), (1, sqrt(3))], color=color)
     elif size == 2:
         from sage.plot.point import points
-        simplex_image = points([(1, 0), (0, 1)], color=col)
+        simplex_image = points([(1, 0), (0, 1)], color=color)
     else:
         raise ValueError("The size of the simplex should be 2, 3 or 4")
     return simplex_image
@@ -302,7 +301,7 @@ class GeometricRepresentationCoxeterGroup():
 
     - ``generators`` -- an alphabet for the generators (default: ``None``)
 
-    - ``exact`` -- boolean keyword argument (default: ``True``) Whether to do the
+    - ``exact`` -- boolean keyword argument (default: ``True``); whether to do the
       computation in an exact ring.
 
     TESTS::
@@ -490,7 +489,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A ring
+        A ring
 
         EXAMPLES::
 
@@ -522,7 +521,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A Coxeter Matrix object
+        A Coxeter Matrix object
 
         EXAMPLES::
 
@@ -556,7 +555,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - a tuple containing the labels.
+        a tuple containing the labels
 
         EXAMPLES::
 
@@ -582,7 +581,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A tuple containing the (letter)-generators of the Coxeter group.
+        A tuple containing the (letter)-generators of the Coxeter group
 
         EXAMPLES::
 
@@ -607,7 +606,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - An integer
+        An integer
 
         EXAMPLES::
 
@@ -634,12 +633,12 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``exact`` : a boolean (default = ``True``). Whether to give the bilinear in an exact base
+        - ``exact`` -- a boolean (default = ``True``); whether to give the bilinear in an exact base
           ring or not.
 
         OUTPUT:
 
-        A matrix giving the bilinear form.
+        A matrix giving the bilinear form
 
         EXAMPLES::
 
@@ -715,7 +714,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - an identity matrix
+        an identity matrix
 
         EXAMPLES::
 
@@ -751,7 +750,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A tuple containing the simple roots as vectors
+        A tuple containing the simple roots as vectors
 
         EXAMPLES::
 
@@ -781,7 +780,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - a tuple containing the simple reflections as matrices
+        a tuple containing the simple reflections as matrices
 
         EXAMPLES::
 
@@ -819,11 +818,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``generator`` : a generator of the Coxeter group
+        - ``generator`` -- letter or number; a generator of the Coxeter group
 
         OUTPUT:
 
-        - a matrix representing the generator
+        a matrix representing the generator
 
         EXAMPLES::
 
@@ -874,12 +873,12 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``exact`` : a boolean (default = ``True``). Whether to give the bilinear in an exact base
+        - ``exact`` -- a boolean (default = ``True``); whether to give the bilinear in an exact base
           ring or not.
 
         OUTPUT:
 
-        - A tuple of vectors
+        A tuple of vectors
 
         EXAMPLES::
 
@@ -944,12 +943,12 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``exact`` : a boolean (default = ``True``). Whether to give the bilinear in an exact base
+        - ``exact`` -- a boolean (default = ``True``); whether to give the bilinear in an exact base
           ring or not.
 
         OUTPUT:
 
-        - a list of vectors
+        a list of vectors
 
         EXAMPLES::
 
@@ -985,7 +984,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A 3-tuple containing the number of positive, negative and zero
+        A 3-tuple containing the number of positive, negative and zero
           eigenvalues of the bilinear form
 
         EXAMPLES:
@@ -1224,11 +1223,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of matrices
+        A set of matrices
 
         EXAMPLES:
 
@@ -1288,11 +1287,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``element`` : a matrix coming from the representation
+        - ``element`` -- matrix; a matrix representing an element of the representation
 
         OUTPUT:
 
-        - a matrix over ``RDF``
+        a matrix over ``RDF``
 
         EXAMPLES::
 
@@ -1319,11 +1318,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``element`` : a matrix coming from the representation
+        - ``element`` -- matrix; a matrix representing an element of the representation
 
         OUTPUT:
 
-        - a matrix over ``QQbar``
+        a matrix over ``QQbar``
 
         EXAMPLES::
 
@@ -1402,11 +1401,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``element`` : a matrix coming from the representation
+        - ``element`` -- matrix; a matrix representing an element of the representation
 
         OUTPUT:
 
-        - a polynomial
+        a polynomial
 
         EXAMPLES::
 
@@ -1437,7 +1436,7 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``element`` : a matrix coming from the representation
+        - ``element`` -- a matrix coming from the representation
 
         EXAMPLES::
 
@@ -1469,11 +1468,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``element`` : a matrix coming from the representation
+        - ``element`` -- matrix; a matrix representing an element of the representation
 
         OUTPUT:
 
-        - A list of pairs `(r,m)` giving the roots and their multiplicities
+        A list of pairs `(r,m)` giving the roots and their multiplicities
 
         EXAMPLES::
 
@@ -1520,11 +1519,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``element`` : a matrix coming from the representation
+        - ``element`` -- matrix; a matrix representing an element of the representation
 
         OUTPUT:
 
-        - eigenvectors of ``element``
+        eigenvectors of ``element``
 
         EXAMPLES::
 
@@ -1577,11 +1576,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``depth`` : a non-negative integer
+        - ``depth`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of roots of depth ``depth``
+        A set of roots of depth ``depth``
 
         EXAMPLES::
 
@@ -1630,11 +1629,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``v`` : a vector
+        - ``v`` -- vector;
 
         OUTPUT:
 
-        - A vector over ``RDF``
+        A vector over ``RDF``
 
         EXAMPLES::
 
@@ -1715,14 +1714,14 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``depth`` : a non-negative integer
+        - ``depth`` -- a non-negative integer
 
-        - ``exact`` : a boolean (default = ``True``). Whether to give the bilinear in an exact base
+        - ``exact`` -- a boolean (default = ``True``); whether to give the bilinear in an exact base
           ring or not.
 
         OUTPUT:
 
-        - A set of weights of depth ``depth``
+        A set of weights of depth ``depth``
 
         EXAMPLES::
 
@@ -1785,14 +1784,14 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``depth`` : a non-negative integer
+        - ``depth`` -- a non-negative integer
 
-        - ``exact`` : a boolean (default = ``True``). Whether to give the bilinear in an exact base
+        - ``exact`` -- a boolean (default = ``True``); whether to give the bilinear in an exact base
           ring or not.
 
         OUTPUT:
 
-        - A set of weights
+        A set of weights
 
         EXAMPLES::
 
@@ -1845,11 +1844,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A triple of sets containing the elliptic, parabolic and hyperbolic
+        A triple of sets containing the elliptic, parabolic and hyperbolic
           elements respectively.
 
         EXAMPLES::
@@ -1944,11 +1943,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of elements
+        A set of elements
 
         EXAMPLES::
 
@@ -2039,11 +2038,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of elements
+        A set of elements
 
         EXAMPLES::
 
@@ -2089,11 +2088,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of elements
+        A set of elements
 
         EXAMPLES::
 
@@ -2142,11 +2141,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of vectors
+        A set of vectors
 
         EXAMPLES::
 
@@ -2173,54 +2172,47 @@ class GeometricRepresentationCoxeterGroup():
         para_lm = Set([])
 
         for element in self.parabolic_elements(length):
-            EV_matrix = matrix(flatten([tup[1] for tup in self._algebraic_eigenvectors_element(element)])).transpose().change_ring(RDF)
+            ev_matrix = matrix(flatten([tup[1] for tup in self._algebraic_eigenvectors_element(element)])).transpose().change_ring(RDF)
 
-            if EV_matrix.ncols() == 1:
-                New_LM = vector(EV_matrix.column(0))
+            if ev_matrix.ncols() == 1:
+                new_lr = vector(ev_matrix.column(0))
             else:
 
-                Ext_var = vector([var('x%i' % value) for value in range(EV_matrix.ncols())],)
-                # print "vector of variables:", Ext_var
-                # print "Matrix:"
-                # print EV_matrix
-                EV_var = EV_matrix*Ext_var
-                Quad_Expr = EV_var*self.bilinear_form(False)*EV_var
+                extra_var = vector([var('x%i' % value) for value in range(ev_matrix.ncols())],)
+                ev_variables = ev_matrix*extra_var
+                quadric_expr = ev_variables*self.bilinear_form(False)*ev_variables
 
-                Dict_Soln = solve([Quad_Expr == 0], list(Ext_var), solution_dict=True)
-                # print Dict_Soln
+                dict_soln_ev = solve([quadric_expr == 0], list(extra_var), solution_dict=True)
 
-                if len(Dict_Soln) > 0:
-                    New_LM = EV_var.subs(Dict_Soln[0])
-                    # print "before", EV_var,New_LM
+                if len(dict_soln_ev) > 0:
+                    new_lr = ev_variables.subs(dict_soln_ev[0])
 
                     for index in range(self._rank):
-                        for vari in New_LM[index].variables():
-                            New_LM[index] = New_LM[index].subs({vari: 1})
-                    # print "if",New_LM
+                        for vari in new_lr[index].variables():
+                            new_lr[index] = new_lr[index].subs({vari: 1})
 
                 else:
                     soln_dict = {}
-                    for vari in Ext_var:
-                        soln_vari = solve([Quad_Expr == 0], vari)
+                    for vari in extra_var:
+                        soln_vari = solve([quadric_expr == 0], vari)
                         if len(soln_vari) > 0:
                             soln_dict[vari] = soln_vari[0].rhs()
                         else:
                             soln_dict[vari] = 1
-                    New_LM = EV_var.subs(soln_dict)
-                    # print "else", New_LM
-            if New_LM < 0:
-                New_LM = -New_LM
-            Approx_problem = False
+                    new_lr = ev_variables.subs(soln_dict)
+            if new_lr < 0:
+                new_lr = -new_lr
+            approx_problem = False
             index = 0
-            while not Approx_problem and index < self._rank:
-                if New_LM[index] < 0:
-                    Approx_problem = True
+            while not approx_problem and index < self._rank:
+                if new_lr[index] < 0:
+                    approx_problem = True
                     print "There was an approximation problem with the element", self._matrix_to_word[element]
                 index += 1
-            if not Approx_problem:
-                New_LM.set_immutable()
-                if New_LM not in para_lm:
-                    para_lm = para_lm.union(Set([New_LM]))
+            if not approx_problem:
+                new_lr.set_immutable()
+                if new_lr not in para_lm:
+                    para_lm = para_lm.union(Set([new_lr]))
 
         self._computed_limit_roots = self._computed_limit_roots.union(para_lm)
 
@@ -2234,11 +2226,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of vectors
+        A set of vectors
 
         EXAMPLES::
 
@@ -2272,13 +2264,13 @@ class GeometricRepresentationCoxeterGroup():
         hyper_lm = Set([])
         for element in self.hyperbolic_elements(length):
             EigVec = self._algebraic_eigenvectors_element(element)  # THIS SHOULD BE FAST
-            New_LM = []
+            new_lr = []
 
             for ev in EigVec:  # Making sure it is not a unimodular eigenvalue
                 if abs(ev[0].norm())-1 > 0.001:  # The eigenvector with reverse eigenvalue is obtained with the inverse element
-                    New_LM += [ev[1][0]]
+                    new_lr += [ev[1][0]]
 
-            for vect in New_LM:
+            for vect in new_lr:
                 if vect < 0:  # Putting the eigenvector in the positive cone
                     vect = -vect
                 real_vect = vector([v.real() for v in vect])
@@ -2299,11 +2291,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
         OUTPUT:
 
-        - A set of vectors
+        A set of vectors
 
         EXAMPLES::
 
@@ -2345,29 +2337,28 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``list_lengths`` : a list of non-negative integers giving the length of the infinite
+        - ``list_lengths`` -- list of non-negative integers; they give the length of the infinite
           order elements to be used to obtain limit roots
 
-        - ``list_orbits`` : a list of non-negative integers (default: ``[0]``) giving the length
-          of the elements that will act on the limit roots to obtain even more
-          of them
+        - ``list_orbits`` -- a list of non-negative integers (default: ``[0]``); they give the length
+          of the elements that will act on the limit roots to obtain even more of them
 
-        - ``limit_type`` : an integer (default: ``2``).
+        - ``limit_type`` -- an integer (default: ``2``);
 
           - 2: Compute all limit roots
           - 1: Compute hyperbolic limit roots
           - anything else: Compute parabolic limit roots
 
-        - ``size`` : a non-negative integer (default: ``4``) give the size of the point to draw
+        - ``size`` -- a non-negative integer (default: ``4``); give the size of the point to draw
 
-        - ``color`` : a color to give the limit roots (default: ``(1,0,0)``, red)
+        - ``color`` -- a color to give the limit roots (default: ``(1,0,0)``, red);
 
-        - ``color_simplex`` : a color to give the limit roots (default: ``(0,1,0)``, green)
+        - ``color_simplex`` -- a color to give the limit roots (default: ``(0,1,0)``, green);
 
-        - ``isotropic`` : a boolean (default: ``False``), whether to plot the
+        - ``isotropic`` -- a boolean (default: ``False``); whether to plot the
           isotropic cone in the infinite case
 
-        - ``iso_color`` : a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
+        - ``iso_color`` -- a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
 
         OUTPUT:
 
@@ -2423,24 +2414,24 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``length`` : a non-negative integer
+        - ``length`` -- a non-negative integer
 
-        - ``orbit`` : a non-negative integer (default: ``0``)
+        - ``orbit`` -- a non-negative integer (default: ``0``)
 
-        - ``limit_type`` : an integer (default: ``2``).
+        - ``limit_type`` -- an integer (default: ``2``)
 
           - 2: Compute all limit roots
           - 1: Compute hyperbolic limit roots
           - anything else: Compute parabolic limit roots
 
-        - ``size`` : a non-negative integer (default: ``4``) give the size of the point to draw
+        - ``size`` -- a non-negative integer (default: ``4``); give the size of the point to draw
 
-        - ``color`` : a color to give the limit roots (default: ``(1,0,0)``, red)
+        - ``color`` -- a color to give the limit roots (default: ``(1,0,0)``, red)
 
 
         OUTPUT:
 
-        - A Graphics object
+        A Graphics object
 
         EXAMPLES::
 
@@ -2503,11 +2494,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``base_length`` : a non-negative integer
+        - ``base_length`` -- a non-negative integer
 
-        - ``orbit_length`` : a non-negative integer
+        - ``orbit_length`` -- a non-negative integer
 
-        - ``limit_type`` : an integer (default: ``2``).
+        - ``limit_type`` -- an integer (default: ``2``)
 
           - 2: Compute all limit roots
           - 1: Compute hyperbolic limit roots
@@ -2515,7 +2506,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A set of limit roots
+        A set of limit roots
 
         EXAMPLES::
 
@@ -2566,14 +2557,14 @@ class GeometricRepresentationCoxeterGroup():
                     new_lm = self._real_element(element)*lm
                     if new_lm < 0:
                         new_lm = -new_lm
-                    Approx_problem = False
+                    approx_problem = False
                     index = 0
-                    while not Approx_problem and index < self._rank:
+                    while not approx_problem and index < self._rank:
                         if new_lm[index] < 0:  # SOLVE THIS ISSUE HERE
-                            Approx_problem = True
+                            approx_problem = True
                             # print "There was an approximation problem with element:", self._matrix_to_word[element], "and limit root:", lm
                         index += 1
-                    if not Approx_problem:
+                    if not approx_problem:
                         new_lm.set_immutable()
                         if new_lm not in orbit_lm:
                             orbit_lm = orbit_lm.union(Set([new_lm]))
@@ -2587,19 +2578,19 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``list_depths`` : a list of non-negative integers giving the depth of
+        - ``list_depths`` -- a list of non-negative integers; give the depths of
           the roots to plot
 
-        - ``size`` : a non-negative integer (default: ``4``) give the size of the point to draw
+        - ``size`` -- a non-negative integer (default: ``4``); give the size of the point to draw
 
-        - ``color`` : a color to give the roots (default: ``(1,0,0)``, red)
+        - ``color`` -- a color to give the roots (default: ``(1,0,0)``, red)
 
-        - ``color_simplex`` : a color to give the simplex (default: ``(0,1,0)``, green)
+        - ``color_simplex`` -- a color to give the simplex (default: ``(0,1,0)``, green)
 
-        - ``isotropic`` : a boolean (default: ``True``), whether to plot the
+        - ``isotropic`` -- a boolean (default: ``True``); whether to plot the
           isotropic cone in the infinite case
 
-        - ``iso_color`` : a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
+        - ``iso_color`` -- a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
 
         OUTPUT:
 
@@ -2698,11 +2689,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``depth`` : a non-negative integer
+        - ``depth`` -- a non-negative integer
 
-        - ``size`` : a non-negative integer (default: ``4``) give the size of the point to draw
+        - ``size`` -- a non-negative integer (default: ``4``); give the size of the point to draw
 
-        - ``color`` : a color to give the points (default: ``(1,0,0)``, red)
+        - ``color`` -- a color to give the points (default: ``(1,0,0)``, red)
 
         OUTPUT:
 
@@ -2742,22 +2733,22 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``list_depths`` : a list of non-negative integers giving the depth of
+        - ``list_depths`` -- a list of non-negative integers; give the depths of
           the weights to plot
 
-        - ``space`` : a boolean (default: ``False``), whether to plot only
+        - ``space`` -- a boolean (default: ``False``); whether to plot only
           space weights
 
-        - ``size`` : a non-negative integer (default: ``4``) give the size of the point to draw
+        - ``size`` -- a non-negative integer (default: ``4``); give the size of the point to draw
 
-        - ``color`` : a color to give the weights (default: ``(1,0,0)``, blue)
+        - ``color`` -- a color to give the weights (default: ``(1,0,0)``, blue)
 
-        - ``color_simplex`` : a color to give the limit roots (default: ``(0,1,0)``, green)
+        - ``color_simplex`` -- a color to give the limit roots (default: ``(0,1,0)``, green)
 
-        - ``isotropic`` : a boolean (default: ``True``), whether to plot the
+        - ``isotropic`` -- a boolean (default: ``True``); whether to plot the
           isotropic cone in the infinite case
 
-        - ``iso_color`` : a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
+        - ``iso_color`` -- a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
 
         OUTPUT:
 
@@ -2852,14 +2843,14 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``depth`` : a non-negative integer
+        - ``depth`` -- a non-negative integer
 
-        - ``space`` : a boolean (default: ``False``) whether to plot only space
+        - ``space`` -- a boolean (default: ``False``); whether to plot only space
           weights
 
-        - ``size`` : a non-negative integer (default: ``4``) give the size of the point to draw
+        - ``size`` -- a non-negative integer (default: ``4``); give the size of the point to draw
 
-        - ``color`` : a color to give the weights (default: ``(0,0,1)``, blue)
+        - ``color`` -- a color to give the weights (default: ``(0,0,1)``, blue)
 
         OUTPUT:
 
@@ -2911,18 +2902,18 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``depth`` : a non-negative integer
+        - ``depth`` -- a non-negative integer
 
-        - ``frame_color`` : a color (default= ``(1,0,0)`` red) to give to the
+        - ``frame_color`` -- a color (default= ``(1,0,0)`` red); color of the
           edges
 
-        - ``face_color`` : a color (default= ``(0, 0, 1)``) to give the faces
+        - ``face_color`` -- a color (default= ``(0, 0, 1)``); color of the faces
 
-        - ``color_simplex`` : a color to give the limit roots (default: ``(0,1,0)``, green)
+        - ``color_simplex`` -- a color to give the limit roots (default: ``(0,1,0)``, green)
 
-        - ``isotropic`` : a boolean (default: ``False``), whether to plot the isotropic cone
+        - ``isotropic`` -- a boolean (default: ``False``); whether to plot the isotropic cone
 
-        - ``iso_color`` : a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
+        - ``iso_color`` -- a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
 
         OUTPUT:
 
@@ -2976,11 +2967,11 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``color`` : a color (default= ``(1,1,0)``)
+        - ``color`` -- a color (default= ``(1,1,0)``)
 
-        - ``color_simplex`` : a color to give the limit roots (default: ``(0,1,0)``, green)
+        - ``color_simplex`` -- a color to give the limit roots (default: ``(0,1,0)``, green)
 
-        - ``simplex`` : a boolean (default: ``True``), whether to plot the affine simplex
+        - ``simplex`` -- a boolean (default: ``True``); whether to plot the affine simplex
 
         OUTPUT:
 
@@ -3039,7 +3030,7 @@ class GeometricRepresentationCoxeterGroup():
 
         INPUT:
 
-        - ``color`` : a color (default= ``(1,1,0)``)
+        - ``color`` -- a color (default= ``(1,1,0)``)
 
         OUTPUT:
 
@@ -3054,18 +3045,18 @@ class GeometricRepresentationCoxeterGroup():
             Graphics3d Object
         """
         if self._rank == 4:
-            Eq = self._equation_light_cone_rank4()
-            image = implicit_plot3d(Eq == 0, (a, -0.5, 2.1), (b, -0.5, 2.1), (c, -0.5, 2.1), aspect_ratio=1, rgbcolor=color, opacity=0.2)
+            eq_lc = self._equation_light_cone_rank4()
+            image = implicit_plot3d(eq_lc == 0, (a, -0.5, 2.1), (b, -0.5, 2.1), (c, -0.5, 2.1), aspect_ratio=1, rgbcolor=color, opacity=0.2)
             return image
         elif self._rank == 3:
-            Eq = self._equation_light_cone_rank3()
-            image = implicit_plot(Eq == 0, (a, -1, 2), (b, -1, 2), aspect_ratio=1, color=color)
+            eq_lc = self._equation_light_cone_rank3()
+            image = implicit_plot(eq_lc == 0, (a, -1, 2), (b, -1, 2), aspect_ratio=1, color=color)
             image.set_aspect_ratio(1)
             image.SHOW_OPTIONS['axes'] = False
             return image
         elif self._rank == 2:
-            Eq = self._equation_light_cone_rank2()
-            values = [soln.values()[0] for soln in solve(Eq == 0, a, solution_dict=True)]
+            eq_lc = self._equation_light_cone_rank2()
+            values = [soln.values()[0] for soln in solve(eq_lc == 0, a, solution_dict=True)]
             v1 = 5 * vector(RDF, [1-values[0], values[0]])
             v2 = 5 * vector(RDF, [1-values[1], values[1]])
             image = arrow((0, 0), tuple(v1), color=color)
@@ -3081,7 +3072,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A symbolic expression
+        A symbolic expression
 
         EXAMPLES::
 
@@ -3119,7 +3110,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A symbolic expression
+        A symbolic expression
 
         EXAMPLES::
 
@@ -3148,7 +3139,7 @@ class GeometricRepresentationCoxeterGroup():
 
         OUTPUT:
 
-        - A symbolic expression
+        A symbolic expression
 
         EXAMPLES::
 
@@ -3164,26 +3155,26 @@ class GeometricRepresentationCoxeterGroup():
         my_eq = vect[0]
         return my_eq
 
-    def tikz_picture_rank3(self, Range_roots, Range_limitroots, Range_orbit,
-                           Range_weights, Range_limitdir, Range_hyperplane, limit_type=2, Q=True):
+    def tikz_picture_rank3(self, range_roots, range_limitroots, range_orbit,
+                           range_weights, range_limitdir, range_hyperplane, limit_type=2, isotropic=True):
         r"""
         This function returns a LaTeX expression containing a tikzpicture of a rank
         3 root system.
 
         INPUT:
 
-        - ``Range_roots`` : The list of depth of roots to print
-        - ``Range_limitroots`` :  Printing the limit roots associated to elements
-          with lengths in `Range_limitroots`
-        - ``Range_orbit`` : List of lengths by which we act on roots and limit roots to obtain more
+        - ``range_roots`` -- list of non-negative integers; the depths of roots to print
+        - ``range_limitroots`` --  list of non-negative integers; give the limit roots associated to elements
+          with lengths in `range_limitroots`
+        - ``range_orbit`` -- list of non-negative integers; lengths by which we act on roots and limit roots to obtain more
           (be careful not to put to many)
-        - ``Range_weights`` : List of depth of weights to print
-        - ``Range_limitdir`` : List of lengths of elements of which we print the
+        - ``range_weights`` -- list of non-negative integers; depth of weights to print
+        - ``range_limitdir`` -- list of non-negative integers; lengths of elements of which we print the
           possible associated limit direction (eigenspace of dimension 1)
-        - ``Range_hyperplane`` : List of depth of roots for which we print the
+        - ``range_hyperplane`` -- list of non-negative integers; depths of roots for which we print the
           corresponding hyperplane inside the isotropic cone
-        - ``limit_type`` : (default: ``2``), ``0`` : Parabolic, ``1`` : Hyperbolic, or ``2`` : All
-        - ``Q`` : Boolean (default: ``True``) whether to draw the isotropic cone
+        - ``limit_type`` -- 0, 1, 2 (default: ``2``); ``0`` : Parabolic, ``1`` : Hyperbolic, or ``2`` : All
+        - ``isotropic`` -- Boolean (default: ``True``); whether to draw the isotropic cone
 
         OUTPUT:
 
@@ -3198,14 +3189,13 @@ class GeometricRepresentationCoxeterGroup():
             sage: print("\n".join(tikz_pic.splitlines()[:10])) # long time
             \begin{tikzpicture}
                 [scale=1,
-                 q/.style={red,line join=round,thick},
-                 racine/.style={blue},
-                 racinesimple/.style={black},
-                 racinedih/.style={blue},
+                 isotropcone/.style={red,line join=round,thick},
+                 root/.style={blue},
+                 simpleroot/.style={black},
+                 dihedral_roots/.style={blue},
                  limit/.style={fill=red,draw=black,diamond},
                  limdir/.style={fill=orange,draw=black,diamond},
                  weight/.style={fill=green,draw=black,diamond},
-                 sommet/.style={inner sep=2pt,circle,draw=black,fill=blue,thick,anchor=base},
             sage: print("\n".join(tikz_pic.splitlines()[72:77])) # long time
             \node[limit,inner sep=1pt] at (2.79384317461,0.308476464594) {};
             \node[limit,inner sep=1pt] at (1.6411385843,2.19814939939) {};
@@ -3214,75 +3204,71 @@ class GeometricRepresentationCoxeterGroup():
             \node[limit,inner sep=1pt] at (0.900982021125,0.792578618065) {};
         """
 
-        Impression = '\\begin{tikzpicture}\n'
-        Impression += '\t[scale=1,\n'
-        Impression += '\t q/.style={red,line join=round,thick},\n'
-        Impression += '\t racine/.style={blue},\n'
-        Impression += '\t racinesimple/.style={black},\n'
-        Impression += '\t racinedih/.style={blue},\n'
-        Impression += '\t limit/.style={fill=red,draw=black,diamond},\n'
-        Impression += '\t limdir/.style={fill=orange,draw=black,diamond},\n'
-        Impression += '\t weight/.style={fill=green,draw=black,diamond},\n'
-        Impression += '\t sommet/.style={inner sep=2pt,circle,draw=black,fill=blue,thick,anchor=base},\n'
-        Impression += '\t rotate=0]\n\n\n'
-        Impression += '\def\grosseur{0.0125}\n'
-        Impression += '\def\grosseursimple{0.025}\n\n'
-        Impression += '\def\grosseurdih{0.0075}\n\n'
+        if self._rank != 3:
+            raise ValueError("The representation does not have rank 3")
+
+        tikz_pic = '\\begin{tikzpicture}\n'
+        tikz_pic += '\t[scale=1,\n'
+        tikz_pic += '\t isotropcone/.style={red,line join=round,thick},\n'
+        tikz_pic += '\t root/.style={blue},\n'
+        tikz_pic += '\t simpleroot/.style={black},\n'
+        tikz_pic += '\t dihedral_roots/.style={blue},\n'
+        tikz_pic += '\t limit/.style={fill=red,draw=black,diamond},\n'
+        tikz_pic += '\t limdir/.style={fill=orange,draw=black,diamond},\n'
+        tikz_pic += '\t weight/.style={fill=green,draw=black,diamond},\n'
+        tikz_pic += '\t rotate=0]\n\n\n'
+        tikz_pic += '\def\size{0.0125}\n'
+        tikz_pic += '\def\simplesize{0.025}\n\n'
 
         projection_space = VectorSpace(RDF, 2)
         affine_basis = regular_simplex_vertices(2)
 
-        if self.signature() == [2, 0, 1]:
-
-            MMM = self.bilinear_form()
-            pt = MMM.kernel().basis()[0]
-            Center = affinely_project_vector(vector(pt), projection_space, affine_basis)
-
-            impl = '\\fill[red] (%s,%s) circle (\grosseursimple);\n\n' % (2*Center[0], 2*Center[1])
-
-        else:
-
+        if self.signature() == [2, 0, 1] and isotropic:
+            bf = self.bilinear_form()
+            pt = bf.kernel().basis()[0]
+            center = affinely_project_vector(vector(pt), projection_space, affine_basis)
+            tikz_pic += '\\fill[red] (%s,%s) circle (\simplesize);\n\n' % (2*center[0], 2*center[1])
+        elif isotropic:
             from sage.plot.misc import setup_for_eval_on_grid
-            Eq = self._equation_light_cone_rank3()
-    #        f(a,b)=Eq
-            g, ranges = setup_for_eval_on_grid([Eq], [[a, 0, 4], [b, 0, 4]], 200)
+            eq_lc = self._equation_light_cone_rank3()
+            g, ranges = setup_for_eval_on_grid([eq_lc], [[a, 0, 4], [b, 0, 4]], 200)
             g = g[0]
 
-            L = []
+            pt_sequence = []
             centerval = 0
             center = None
             for i in xsrange(-0.5, 4, step=0.005):
                 for j in xsrange(-0.5, 4, step=0.005):
                     val = g(i, j)
                     if abs(val) < 0.00125 and val < 0:
-                        L += [(i, j)]
+                        pt_sequence += [(i, j)]
                     if val < centerval:
                         centerval = val
                         center = (i, j)
 
-            Segments = [(p[0] - center[0], p[1] - center[1]) for p in L]
+            segments = [(p[0] - center[0], p[1] - center[1]) for p in pt_sequence]
 
-            Segments_pospos = filter(lambda x: x[0] > 0 and x[1] > 0, Segments)
-            Segments_negpos = filter(lambda x: x[0] < 0 and x[1] > 0, Segments)
-            Segments_negneg = filter(lambda x: x[0] < 0 and x[1] <= 0, Segments)
-            Segments_posneg = filter(lambda x: x[0] > 0 and x[1] <= 0, Segments)
+            segments_pospos = filter(lambda x: x[0] > 0 and x[1] > 0, segments)
+            segments_negpos = filter(lambda x: x[0] < 0 and x[1] > 0, segments)
+            segments_negneg = filter(lambda x: x[0] < 0 and x[1] <= 0, segments)
+            segments_posneg = filter(lambda x: x[0] > 0 and x[1] <= 0, segments)
 
-            Segpospos_tan = [(max(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in Segments_pospos]
-            Segnegpos_tan = [(min(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in Segments_negpos]
-            Segnegneg_tan = [(max(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in Segments_negneg]
-            Segposneg_tan = [(min(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in Segments_posneg]
+            segpospos_tan = [(max(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in segments_pospos]
+            segnegpos_tan = [(min(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in segments_negpos]
+            segnegneg_tan = [(max(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in segments_negneg]
+            segposneg_tan = [(min(arctan(p[1]/p[0]), -arctan(p[1]/p[0])), p) for p in segments_posneg]
 
-            Segpospos_tan.sort()
-            Segnegpos_tan.sort()
-            Segnegneg_tan.sort()
-            Segposneg_tan.sort()
+            segpospos_tan.sort()
+            segnegpos_tan.sort()
+            segnegneg_tan.sort()
+            segposneg_tan.sort()
 
-            Sorted_pt = [(p[1][0] + center[0], p[1][1] + center[1]) for p in Segpospos_tan] + \
-                        [(p[1][0] + center[0], p[1][1] + center[1]) for p in Segnegpos_tan] + \
-                        [(p[1][0] + center[0], p[1][1] + center[1]) for p in Segnegneg_tan] + \
-                        [(p[1][0] + center[0], p[1][1] + center[1]) for p in Segposneg_tan]
+            Sorted_pt = [(p[1][0] + center[0], p[1][1] + center[1]) for p in segpospos_tan] + \
+                        [(p[1][0] + center[0], p[1][1] + center[1]) for p in segnegpos_tan] + \
+                        [(p[1][0] + center[0], p[1][1] + center[1]) for p in segnegneg_tan] + \
+                        [(p[1][0] + center[0], p[1][1] + center[1]) for p in segposneg_tan]
 
-            impl = '%% La courbe Q\n\n\\draw[q] '
+            impl = '%% The isotropic curve:\n\n\\draw[q] '
             for p in Sorted_pt:
                 x_coord = n(2*p[0])
                 y_coord = n(2*p[1])
@@ -3292,119 +3278,117 @@ class GeometricRepresentationCoxeterGroup():
                     y_coord = n(0)
                 impl += '(%s,%s) -- ' % (x_coord.n(digits=3), y_coord.n(digits=3))
             impl += 'cycle;\n\n'
-
-        if Q:
-            Impression += impl
+            tikz_pic += impl
 
         simple = ['\\alpha', '\\beta', '\\gamma']
         name = ['a', 'b', 'g']
         place = ['left', 'right', 'above']
         si_root = 0
 
-        for i in Range_roots:
-            Impression += '%% Roots of deepness= %i\n' % i
+        for i in range_roots:
+            tikz_pic += '%% Roots of depth= %i\n' % i
             for j in self.roots(i):
-                Proj_root = affinely_project_vector(self._rdf_vector(j), projection_space, affine_basis)
-                ligne = ''
+                projected_root = affinely_project_vector(self._rdf_vector(j), projection_space, affine_basis)
+                line_sgmt = ''
                 if i == 0:
-                    ligne += '\\node[label=%s :{$%s$}] (%s) at (%s,%s) {};\n\\fill[racinesimple] (%s,%s) circle (\grosseursimple);\n' % (place[si_root], simple[si_root], name[si_root], 2*Proj_root[0], 2*Proj_root[1], 2*Proj_root[0], 2*Proj_root[1])
+                    line_sgmt += '\\node[label=%s :{$%s$}] (%s) at (%s,%s) {};\n\\fill[simpleroot] (%s,%s) circle (\simplesize);\n' % (place[si_root], simple[si_root], name[si_root], 2*projected_root[0], 2*projected_root[1], 2*projected_root[0], 2*projected_root[1])
                     si_root += 1
                 else:
-                    if abs(sqrt(3)*Proj_root[0]-Proj_root[1]) < 0.01 or abs(-sqrt(3)*Proj_root[0]+2*sqrt(3)-Proj_root[1]) < 0.01 or abs(Proj_root[1]) < 0.01:
-                        ligne += '\\fill[racine] (%s,%s) circle (\grosseursimple);\n' % (max(2*Proj_root[0], 0.01), max(2*Proj_root[1], 0.01))
+                    if abs(sqrt(3)*projected_root[0]-projected_root[1]) < 0.01 or abs(-sqrt(3)*projected_root[0]+2*sqrt(3)-projected_root[1]) < 0.01 or abs(projected_root[1]) < 0.01:
+                        line_sgmt += '\\fill[root] (%s,%s) circle (\simplesize);\n' % (max(2*projected_root[0], 0.01), max(2*projected_root[1], 0.01))
                     else:
-                        ligne += '\\fill[racine] (%s,%s) circle (\grosseur);\n' % (max(2*Proj_root[0], 0.01), max(2*Proj_root[1], 0.01))
-                Impression += ligne
-            Impression += '\n'
+                        line_sgmt += '\\fill[root] (%s,%s) circle (\size);\n' % (max(2*projected_root[0], 0.01), max(2*projected_root[1], 0.01))
+                tikz_pic += line_sgmt
+            tikz_pic += '\n'
             if i == 0:
-                Impression += "\draw[green!75!black] (%s) -- (%s) -- (%s) -- (%s);\n\n" % (name[0], name[1], name[2], name[0])
+                tikz_pic += "\draw[green!75!black] (%s) -- (%s) -- (%s) -- (%s);\n\n" % (name[0], name[1], name[2], name[0])
 
-        for i in Range_limitroots:
-            for j in Range_orbit:
-                Impression += '%% Limit roots of of type= %i and length= %i and orbit= %i\n\n' % (limit_type, i, j)
+        for i in range_limitroots:
+            for j in range_orbit:
+                tikz_pic += '%% Limit roots of of type= %i and length= %i and orbit= %i\n\n' % (limit_type, i, j)
 
                 limit_roots = self._compute_orbit_limit_roots(i, j, limit_type)
 
                 for lm in limit_roots:
-                    Proj_root = affinely_project_vector(lm, projection_space, affine_basis)
-                    ligne = ''
-                    if abs(sqrt(3)*Proj_root[0]-Proj_root[1]) < 0.01 or abs(-sqrt(3)*Proj_root[0]+2*sqrt(3) - Proj_root[1]) < 0.01 or abs(Proj_root[1]) < 0.01:
-                        ligne += '\\node[limit,inner sep=1.5pt] at (%s,%s) {};\n' % (max(2*Proj_root[0], 0.01), max(2*Proj_root[1], 0.01))
+                    projected_lm = affinely_project_vector(lm, projection_space, affine_basis)
+                    line_sgmt = ''
+                    if abs(sqrt(3)*projected_lm[0]-projected_lm[1]) < 0.01 or abs(-sqrt(3)*projected_lm[0]+2*sqrt(3) - projected_lm[1]) < 0.01 or abs(projected_lm[1]) < 0.01:
+                        line_sgmt += '\\node[limit,inner sep=1.5pt] at (%s,%s) {};\n' % (max(2*projected_lm[0], 0.01), max(2*projected_lm[1], 0.01))
                     else:
-                        ligne += '\\node[limit,inner sep=1pt] at (%s,%s) {};\n' % (max(2*Proj_root[0], 0.01), max(2*Proj_root[1], 0.01))
-                    Impression += ligne
-                Impression += '\n'
+                        line_sgmt += '\\node[limit,inner sep=1pt] at (%s,%s) {};\n' % (max(2*projected_lm[0], 0.01), max(2*projected_lm[1], 0.01))
+                    tikz_pic += line_sgmt
+                tikz_pic += '\n'
 
-        Set_ld = Set([])
+        limdir_set = Set([])
 
         x, y, z = var('x y z')
         p = var('p')
-        Vect_var = vector([x, y, z])
-        Cone = Polyhedron(rays=[[1, 0, 0], [0, 1, 0], [0, 0, 1]])
+        var_vector = vector([x, y, z])
+        positive_cone = Polyhedron(rays=[[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 
-        B = self.bilinear_form()
+        bilin_form = self.bilinear_form()
 
-        for depth in Range_hyperplane:
-            Impression += '%% Hyperplanes of depth= %i\n' % depth
-            for Racine in self.roots(depth):
-                Eqn1 = (Racine*B*Vect_var.column())[0]
-                Plan = Polyhedron(ieqs=[[0, RDF(Eqn1.coefficient(x)), RDF(Eqn1.coefficient(y)), RDF(Eqn1.coefficient(z))], [0, RDF(-Eqn1.coefficient(x)), RDF(-Eqn1.coefficient(y)), RDF(-Eqn1.coefficient(z))]], base_ring=RDF)
+        for depth in range_hyperplane:
+            tikz_pic += '%% Hyperplanes of depth= %i\n' % depth
+            for root in self.roots(depth):
+                equation1 = (root*bilin_form*var_vector.column())[0]
+                hyperplane = Polyhedron(ieqs=[[0, RDF(equation1.coefficient(x)), RDF(equation1.coefficient(y)), RDF(equation1.coefficient(z))], [0, RDF(-equation1.coefficient(x)), RDF(-equation1.coefficient(y)), RDF(-equation1.coefficient(z))]], base_ring=RDF)
 
-                Inter = Cone.intersection(Plan)
-                Ray = Inter.rays()
+                positive_hyper = positive_cone.intersection(hyperplane)
+                ray0, ray1 = positive_hyper.rays()
 
-                EEE = (1 - p) * vector(Ray[0]) + p * vector(Ray[1])
-                Eq = (EEE * B * EEE.column())[0]
-                Sol = [(1 - i) * vector(Ray[0]) + i * vector(Ray[1]) for i in [(Eq.solve(p)[0]).rhs(), (Eq.solve(p)[1]).rhs()]]
-                PSol = [affinely_project_vector(pt, projection_space, affine_basis) for pt in Sol]
-                Impression += '\\draw[thin] ($(%s,%s)!3!(%s,%s)$) -- ($(%s,%s)!3!(%s,%s)$);\n' % (2*PSol[0][0].n(digits=6), 2*PSol[0][1].n(digits=6), 2*PSol[1][0].n(digits=6), 2*PSol[1][1].n(digits=6), 2*PSol[1][0].n(digits=6), 2*PSol[1][1].n(digits=6), 2*PSol[0][0].n(digits=6), 2*PSol[0][1].n(digits=6))
-            Impression += '\n'
+                affine_span = (1 - p) * vector(ray0) + p * vector(ray1)
+                isotropic_eq = (affine_span * bilin_form * affine_span.column())[0]
+                isotropic_rays = [(1 - i) * vector(ray0) + i * vector(ray1) for i in [(isotropic_eq.solve(p)[0]).rhs(), (isotropic_eq.solve(p)[1]).rhs()]]
+                affine_isorays = [affinely_project_vector(pt, projection_space, affine_basis) for pt in isotropic_rays]
+                tikz_pic += '\\draw[thin] ($(%s,%s)!3!(%s,%s)$) -- ($(%s,%s)!3!(%s,%s)$);\n' % (2*affine_isorays[0][0].n(digits=6), 2*affine_isorays[0][1].n(digits=6), 2*affine_isorays[1][0].n(digits=6), 2*affine_isorays[1][1].n(digits=6), 2*affine_isorays[1][0].n(digits=6), 2*affine_isorays[1][1].n(digits=6), 2*affine_isorays[0][0].n(digits=6), 2*affine_isorays[0][1].n(digits=6))
+            tikz_pic += '\n'
 
-        Impression += '\n'
+        tikz_pic += '\n'
 
-        for i in Range_limitdir:
-            Impression += '%% Limit directions of of type= %i and length= %i\n\n' % (limit_type, i)
+        for i in range_limitdir:
+            tikz_pic += '%% Limit directions of of type= %i and length= %i\n\n' % (limit_type, i)
 
-            Hyp_elts = self.hyperbolic_elements(i)
+            hyp_elts = self.hyperbolic_elements(i)
 
-            for hyper_el in Hyp_elts:
+            for hyper_el in hyp_elts:
 
-                Eigenvectors = self._algebraic_eigenvectors_element(hyper_el)
+                eig_vectors = self._algebraic_eigenvectors_element(hyper_el)
 
-                uni_mod_vect = [ev[1][0] for ev in Eigenvectors if abs(ev[0]) == 1]
+                uni_mod_vect = [ev[1][0] for ev in eig_vectors if abs(ev[0]) == 1]
 
-                New_lim_dir = uni_mod_vect[0]
-                New_lim_dir.set_immutable()
-                if New_lim_dir not in Set_ld:
-                    Set_ld = Set_ld.union(Set([New_lim_dir]))
+                new_ld = uni_mod_vect[0]
+                new_ld.set_immutable()
+                if new_ld not in limdir_set:
+                    limdir_set = limdir_set.union(Set([new_ld]))
                     try:
-                        Proj_ld = affinely_project_vector(New_lim_dir, projection_space, affine_basis)
-                        ligne = '\\node[limdir,inner sep=1pt] at (%s,%s) {}; pourc %s\n' % (2*Proj_ld[0], 2*Proj_ld[1], str(self.matrix_to_word(hyper_el)))
-                        Impression += ligne
+                        projected_ld = affinely_project_vector(new_ld, projection_space, affine_basis)
+                        line_sgmt = '\\node[limdir,inner sep=1pt] at (%s,%s) {}; pourc %s\n' % (2*projected_ld[0], 2*projected_ld[1], str(self.matrix_to_word(hyper_el)))
+                        tikz_pic += line_sgmt
                     except ValueError:
                         pass
-            Impression += '\n'
+            tikz_pic += '\n'
 
-        for i in Range_weights:
-            Impression += '%% Weights of length= %i\n' % i
+        for i in range_weights:
+            tikz_pic += '%% Weights of length= %i\n' % i
             for j in self.weights(i):
-                Proj_weight = affinely_project_vector(j, projection_space, affine_basis)
-                ligne = ''
-                if abs(2*Proj_weight[0]) < 0.01:
+                proj_weight = affinely_project_vector(j, projection_space, affine_basis)
+                line_sgmt = ''
+                if abs(2*proj_weight[0]) < 0.01:
                     x_coord = 0.01
                 else:
-                    x_coord = 2*Proj_weight[0]
-                if abs(2*Proj_weight[1]) < 0.01:
+                    x_coord = 2*proj_weight[0]
+                if abs(2*proj_weight[1]) < 0.01:
                     y_coord = 0.01
                 else:
-                    y_coord = 2*Proj_weight[1]
-                if abs(sqrt(3)*Proj_weight[0]-Proj_weight[1]) < 0.01 or abs(-sqrt(3)*Proj_weight[0]+2*sqrt(3)-Proj_weight[1]) < 0.01 or abs(Proj_weight[1]) < 0.01:
-                    ligne += '\\node[weight,inner sep=1.5pt] at (%s,%s) {};\n' % (x_coord, y_coord)
+                    y_coord = 2*proj_weight[1]
+                if abs(sqrt(3)*proj_weight[0]-proj_weight[1]) < 0.01 or abs(-sqrt(3)*proj_weight[0]+2*sqrt(3)-proj_weight[1]) < 0.01 or abs(proj_weight[1]) < 0.01:
+                    line_sgmt += '\\node[weight,inner sep=1.5pt] at (%s,%s) {};\n' % (x_coord, y_coord)
                 else:
-                    ligne += '\\node[weight,inner sep=1pt] at (%s,%s) {};\n' % (x_coord, y_coord)
-                Impression += ligne
-            Impression += '\n'
+                    line_sgmt += '\\node[weight,inner sep=1pt] at (%s,%s) {};\n' % (x_coord, y_coord)
+                tikz_pic += line_sgmt
+            tikz_pic += '\n'
 
-        Impression += '\n\n\\end{tikzpicture}\n\n'
+        tikz_pic += '\n\n\\end{tikzpicture}\n\n'
 
-        return LatexExpr(Impression)
+        return LatexExpr(tikz_pic)
