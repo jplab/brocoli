@@ -160,6 +160,7 @@ def affinely_project_vector(vect, projection_space, affine_basis):
 
     EXAMPLES::
 
+       sage: from brocoli import *
         sage: PS = VectorSpace(RDF, 2)
         sage: ab = regular_simplex_vertices(2)
         sage: v = vector([1,2,3])
@@ -247,11 +248,12 @@ def plot_simplex(size, col=(0, 1, 0)):
 
     EXAMPLES::
 
+        sage: from brocoli import *
         sage: plot_simplex(2)
         Graphics object consisting of 1 graphics primitive
         sage: plot_simplex(3)
         Graphics object consisting of 3 graphics primitives
-        sage: plot_simplex(4)
+        sage: plot_simplex(4) # long time (4 seconds)
         Graphics3d Object
         sage: plot_simplex(5)
         Traceback (most recent call last):
@@ -1299,7 +1301,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR._real_element(GR.elements(2)[3])
             [              -1.0  1.414213562373095  1.414213562373095]
             [               0.0                1.0                0.0]
-            [-1.414213562373095  1.414213562373095                1.0]
+            [-1.414213562373095  3.414213562373095                1.0]
         """
         # This is a hack. Get rid of it once converting to RDF works
         complex_elmt = element.change_ring(CDF)
@@ -1692,9 +1694,9 @@ class GeometricRepresentationCoxeterGroup():
             (-0.23294313392598154, -4.232943133925982, -0.2007803988147036, -1.8674470654813704)
             (-1.590635214223557, -0.1764216518504617, -4.232943133925982, -0.23294313392598154)
 
-            sage: l_roots = GR.limit_roots(2)
-            sage: for lr in l_roots:
-            ....:     print(GR._rdf_vector(lr))
+            sage: l_roots = GR.limit_roots(2) # long time
+            sage: for lr in l_roots: # long time
+            ....:     print(GR._rdf_vector(lr)) # long time
             ....:
             (0.0, 1.0, 1.0, -0.0)
             (0.0, 1.0, -0.0, 1.0)
@@ -2305,7 +2307,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR = GeometricRepresentationCoxeterGroup(M)
             sage: [GR.hyperbolic_limit_roots(i) for i in range(4)]
             [{}, {}, {}, {}]
-            sage: len(GR.hyperbolic_limit_roots(4))
+            sage: len(GR.hyperbolic_limit_roots(4)) # long time
             24
 
             sage: M1 = CoxeterMatrix([[1,-2,-2,-2],[-2,1,-2,-2],[-2,-2,1,-2],[-2,-2,-2,1]])
@@ -2374,13 +2376,13 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
             sage: GR3 = GeometricRepresentationCoxeterGroup(M3)
             sage: GR4 = GeometricRepresentationCoxeterGroup(M4)
-            sage: [len(GR1.limit_roots(i)) for i in range(5)]
-            [0, 0, 6, 24, 90]
-            sage: [len(GR2.limit_roots(i)) for i in range(5)]
-            [0, 0, 0, 4, 28]
-            sage: [len(GR3.limit_roots(i)) for i in range(5)]
-            [0, 0, 3, 19, 64]
-            sage: [len(GR4.limit_roots(i)) for i in range(4)]
+            sage: [len(GR1.limit_roots(i)) for i in range(4)]
+            [0, 0, 6, 24]
+            sage: [len(GR2.limit_roots(i)) for i in range(4)]
+            [0, 0, 0, 4]
+            sage: [len(GR3.limit_roots(i)) for i in range(4)]
+            [0, 0, 3, 19]
+            sage: [len(GR4.limit_roots(i)) for i in range(4)] # long time (8 seconds)
             [0, 0, 2, 19]
 
         TESTS::
@@ -2388,7 +2390,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,4,oo,oo],[4,1,oo,oo],[oo,oo,1,-2],[oo,oo,-2,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: l_roots = GR.limit_roots(4)
+            sage: l_roots = GR.limit_roots(4) # long time (60 seconds)
             There was an approximation problem with the element 1241
             There was an approximation problem with the element 1421
             There was an approximation problem with the element 1321
@@ -2443,16 +2445,16 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
             sage: img = GR1.visualize_limit_roots([0,1,2]);img
             Graphics object consisting of 3 graphics primitives
-            sage: img = GR1.visualize_limit_roots([3,4]);img
+            sage: img = GR1.visualize_limit_roots([3,4]);img # long time
             Graphics object consisting of 21 graphics primitives
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,oo,oo],[oo,oo,1,oo],[oo,oo,oo,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
-            sage: img = GR2.visualize_limit_roots([2,3,4]);img
+            sage: img = GR2.visualize_limit_roots([2,3]);img # long time
             Graphics3d Object
-            sage: img = GR2.visualize_limit_roots([2,3,4],limit_type=1);img
+            sage: img = GR2.visualize_limit_roots([2,3],limit_type=1);img # long time
             Graphics3d Object
-            sage: img = GR2.visualize_limit_roots([2,3,4],limit_type=0);img
+            sage: img = GR2.visualize_limit_roots([2,3],limit_type=0);img
             Graphics3d Object
 
         """
@@ -2510,7 +2512,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
             sage: img = GR1._visualize_limit_roots(3);img
             Graphics object consisting of 6 graphics primitives
-            sage: img = GR1._visualize_limit_roots(4);img
+            sage: img = GR1._visualize_limit_roots(4);img # long time (5 seconds)
             Graphics object consisting of 12 graphics primitives
 
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
@@ -2578,7 +2580,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR1._compute_orbit_limit_roots(3,1)[-1]
             (1.0, 0.5310100564595692, 0.2819716800611949)
             sage: GR1._compute_orbit_limit_roots(3,2)[-1]
-            (3.352193449453957, 4.5464554446849945, 3.5464554446849954)
+            (6.678697326996895, 3.546455444684995, 1.8832035059135257)
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
@@ -2717,12 +2719,12 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: C4t = CoxeterMatrix([[1,4,2,2],[4,1,3,2],[2,3,1,4],[2,2,4,1]])
             sage: GRC4t = GeometricRepresentationCoxeterGroup(C4t)
-            sage: img = GRC4t.visualize_roots(range(6));img
+            sage: img = GRC4t.visualize_roots(range(6));img # long time
             Graphics3d Object
 
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: img = GR.visualize_roots(range(5));img
+            sage: img = GR.visualize_roots(range(4));img # long time
             Graphics3d Object
         """
 
@@ -2865,7 +2867,7 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR.visualize_weights(range(3))
+            sage: GR.visualize_weights(range(3)) # long time
             Graphics3d Object
             sage: GR.visualize_weights(range(3),True)  # This one has less weights
             Graphics3d Object
@@ -2985,16 +2987,16 @@ class GeometricRepresentationCoxeterGroup():
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
             sage: GR1.visualize_tits_cone(2)
-            Graphics object consisting of 14 graphics primitives
+            Graphics object consisting of 13 graphics primitives
 
             sage: M2 = CoxeterMatrix([[1,-2,-2],[-2,1,-2],[-2,-2,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
             sage: GR2.visualize_tits_cone(2)
-            Graphics object consisting of 17 graphics primitives
+            Graphics object consisting of 16 graphics primitives
 
             sage: M3 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR3 = GeometricRepresentationCoxeterGroup(M3)
-            sage: GR3.visualize_tits_cone(3)
+            sage: GR3.visualize_tits_cone(3) # long time (5 seconds)
             Graphics3d Object
         """
         if self.is_finite():
@@ -3093,6 +3095,7 @@ class GeometricRepresentationCoxeterGroup():
 
         EXAMPLES::
 
+            sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
             sage: GR._draw_isotropic_cone_surface()
@@ -3133,10 +3136,10 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR._equation_light_cone_rank4().coefficients()
-            [[0.0833333333333334*sqrt(2)*b*c + 0.8333333333333333*b^2 - 0.33333333333333337*sqrt(3)*sqrt(2)*c + 0.7916666666666666*c^2 - 0.6666666666666667*sqrt(3)*b + 1.0,
+            sage: GR._equation_light_cone_rank4().coefficients() # abs tol 1e-15
+            [[0.08333333333333338*sqrt(2)*b*c + 0.8333333333333333*b^2 - 0.33333333333333337*sqrt(3)*sqrt(2)*c + 0.7916666666666666*c^2 - 0.6666666666666666*sqrt(3)*b + 1.0,
               0],
-             [0.08333333333333333*sqrt(3)*sqrt(2)*c + 0.16666666666666663*sqrt(3)*b - 2.0,
+             [0.08333333333333331*sqrt(3)*sqrt(2)*c + 0.16666666666666663*sqrt(3)*b - 2.0,
               1],
              [1.0, 2]]
         """
@@ -3171,11 +3174,10 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,-10/9,oo],[-10/9,1,4],[oo,4,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR._equation_light_cone_rank3().coefficients()
-            [[0.8838504085436639*b^2 - 0.6296296296296295*sqrt(3)*b + 1.0, 0],
-             [0.09763107293781748*sqrt(3)*b - 2.111111111111111, 1],
+            sage: GR._equation_light_cone_rank3().coefficients() # abs tol 1e-15
+            [[0.8838504085436638*b^2 - 0.6296296296296295*sqrt(3)*b + 1.0, 0],
+             [0.09763107293781749*sqrt(3)*b - 2.111111111111111, 1],
              [1.0555555555555556, 2]]
-
         """
         a, b = var('a b')
         v = vector([1-a-b, a, b])
@@ -3240,17 +3242,19 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,-10/9,oo],[-10/9,1,4],[oo,4,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: tikz_pic = GR.tikz_picture_rank3(range(3),[2,3],[0,1],range(3),[2,3],range(2))
-            sage: print("\n".join(tikz_pic.splitlines()[:10]))
+            sage: tikz_pic = GR.tikz_picture_rank3(range(3),[2,3],[0,1],range(3),[2,3],range(2)) # long time (8 seconds)
+            sage: print("\n".join(tikz_pic.splitlines()[:10])) # long time
             \begin{tikzpicture}
-            	[scale=1,
-            	 q/.style={red,line join=round,thick},
-            	 racine/.style={blue},
-            	 racinesimple/.style={black},
-            	 racinedih/.style={blue},
-            	 limit/.style={fill=red,draw=black,diamond},
-            	 limdir/.style={fill=orange,draw=black,diamond},
-            sage: print("\n".join(tikz_pic.splitlines()[74:79]))
+                [scale=1,
+                 q/.style={red,line join=round,thick},
+                 racine/.style={blue},
+                 racinesimple/.style={black},
+                 racinedih/.style={blue},
+                 limit/.style={fill=red,draw=black,diamond},
+                 limdir/.style={fill=orange,draw=black,diamond},
+                 weight/.style={fill=green,draw=black,diamond},
+                 sommet/.style={inner sep=2pt,circle,draw=black,fill=blue,thick,anchor=base},
+            sage: print("\n".join(tikz_pic.splitlines()[72:77])) # long time
             \node[limit,inner sep=1pt] at (2.79384317461,0.308476464594) {};
             \node[limit,inner sep=1pt] at (1.6411385843,2.19814939939) {};
             \node[limit,inner sep=1pt] at (1.11895251609,0.356038263561) {};
@@ -3289,7 +3293,7 @@ class GeometricRepresentationCoxeterGroup():
             from sage.plot.misc import setup_for_eval_on_grid
             Eq = self._equation_light_cone_rank3()
     #        f(a,b)=Eq
-            g, ranges = setup_for_eval_on_grid([Eq], [[0, 4], [0, 4]], 200)
+            g, ranges = setup_for_eval_on_grid([Eq], [[a, 0, 4], [b, 0, 4]], 200)
             g = g[0]
 
             L = []
