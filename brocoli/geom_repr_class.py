@@ -699,13 +699,7 @@ class GeometricRepresentationCoxeterGroup():
                 bf = matrix(self._base_ring, ipmat)
             return bf
         else:
-            bf = self._coxeter_matrix_obj.bilinear_form(R=RDF)
-            # Correct this hack once fixed.
-            # bf_rdf = bf.change_ring(RDF)
-            cdf_bf = bf.change_ring(CDF)
-            rdf_rows = [[cdf_bf[row][col].real() for col in range(self._rank)] for row in range(self._rank)]
-            bf_rdf = matrix(RDF, rdf_rows)
-            return bf_rdf
+            return self._coxeter_matrix_obj.bilinear_form(R=RDF)
 
     @cached_method
     def identity_element(self):
@@ -1049,6 +1043,15 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR_L2.signature()
             (2, 2, 0)
 
+        Using an inexact base ring raises an error::
+
+            sage: L3 = CoxeterMatrix([[1,-1.5,2,2],[-1.5,1,3,2],[2,3,1,-1.5],[2,2,-1.5,1]])
+            sage: GR_L3 = GeometricRepresentationCoxeterGroup(L3)
+            sage: GR_L3.signature()
+            Traceback (most recent call last):
+            ...
+            ValueError: the base ring is not exact
+
         TESTS::
 
             sage: Finite = [GeometricRepresentationCoxeterGroup(CM) for CM in CoxeterMatrix.samples(finite=True)]
@@ -1059,11 +1062,11 @@ class GeometricRepresentationCoxeterGroup():
             True
         """
         if self._base_ring is RDF:
-            eigen_bilin_form = self.bilinear_form(False)
+            raise ValueError("the base ring is not exact")
         else:
             eigen_bilin_form = (self.bilinear_form()).change_ring(QQbar)
-        ev_signs = [sign(m.real()) for m in eigen_bilin_form.eigenvalues()]
-        return (ev_signs.count(1), ev_signs.count(-1), ev_signs.count(0))
+            ev_signs = [sign(m.real()) for m in eigen_bilin_form.eigenvalues()]
+            return (ev_signs.count(1), ev_signs.count(-1), ev_signs.count(0))
 
     def is_finite(self):
         """
@@ -1150,15 +1153,11 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: L1 = CoxeterMatrix([[1,oo,2,2],[oo,1,3,2],[2,3,1,oo],[2,2,oo,1]])
             sage: L2 = CoxeterMatrix([[1,-3/2,2,2],[-3/2,1,3,2],[2,3,1,-3/2],[2,2,-3/2,1]])
-            sage: L3 = CoxeterMatrix([[1,-1.5,2,2],[-1.5,1,3,2],[2,3,1,-1.5],[2,2,-1.5,1]])
             sage: GR_L1 = GeometricRepresentationCoxeterGroup(L1)
             sage: GR_L2 = GeometricRepresentationCoxeterGroup(L2)
-            sage: GR_L3 = GeometricRepresentationCoxeterGroup(L3)
             sage: GR_L1.is_lorentzian()
             True
             sage: GR_L2.is_lorentzian()
-            False
-            sage: GR_L3.is_lorentzian()
             False
 
         If the bilinear form has only one negative eigenvalue, it is not
@@ -1303,12 +1302,9 @@ class GeometricRepresentationCoxeterGroup():
             [               0.0                1.0                0.0]
             [-1.414213562373095  3.414213562373095                1.0]
         """
-        # This is a hack. Get rid of it once converting to RDF works
-        complex_elmt = element.change_ring(CDF)
-        cdf_rows = [[element[row][col] for col in range(self._rank)] for row in range(self._rank)]
-        real_elmt = matrix(RDF, cdf_rows)
-        real_elmt.set_immutable()
-        return real_elmt
+        rdf_elmt = element.change_ring(RDF)
+        rdf_elmt.set_immutable()
+        return rdf_elmt
 
     @cached_method
     def _algebraic_element(self, element):
@@ -1641,7 +1637,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR = GeometricRepresentationCoxeterGroup(M)
             sage: roots = GR.roots(2)
             sage: for r in roots:
-            ....:     print(GR._rdf_vector(r))
+            ....:     print(GR._rdf_vector(r)) # abs tol 1e-14
             ....:
             (5.414213562373096, 1.0, 0.0, 2.0)
             (0.0, 3.0, 2.0, 0.0)
@@ -1677,26 +1673,23 @@ class GeometricRepresentationCoxeterGroup():
             (10.0, 0.0, 4.0, 1.0)
             (2.0, 0.0, 8.0, 1.0)
             (3.0, 0.0, 0.0, 2.0)
-            sage: weights = GR.weights(2)
-            sage: for w in weights:
-            ....:     print(GR._rdf_vector(w))
-            ....:
-            (-0.23294313392598154, -0.23294313392598154, -8.200780398814704, -1.8674470654813704)
-            (-0.1764216518504617, -1.590635214223557, -4.232943133925982, -0.23294313392598154)
-            (-0.23294313392598154, -0.23294313392598154, -1.8674470654813704, -8.200780398814704)
-            (-3.004848776596652, -1.590635214223557, -0.23294313392598154, -0.23294313392598154)
-            (-0.1764216518504617, -1.590635214223557, -0.23294313392598154, -4.232943133925982)
-            (-1.590635214223557, -3.004848776596652, -0.23294313392598154, -0.23294313392598154)
-            (-0.23294313392598154, -4.232943133925982, -1.8674470654813704, -0.2007803988147036)
-            (-1.590635214223557, -0.1764216518504617, -0.23294313392598154, -4.232943133925982)
-            (-4.232943133925982, -0.23294313392598154, -1.8674470654813704, -0.2007803988147036)
-            (-4.232943133925982, -0.23294313392598154, -0.2007803988147036, -1.8674470654813704)
-            (-0.23294313392598154, -4.232943133925982, -0.2007803988147036, -1.8674470654813704)
-            (-1.590635214223557, -0.1764216518504617, -4.232943133925982, -0.23294313392598154)
+            sage: [GR._rdf_vector(w) for w in GR.weights(2)] # abs tol 1e-14
+            [(-0.23294313392598154, -0.23294313392598154, -8.200780398814702, -1.8674470654813702),
+             (-0.1764216518504617, -1.590635214223557, -4.232943133925982, -0.23294313392598154),
+             (-0.23294313392598154, -0.23294313392598154, -1.8674470654813702, -8.200780398814702),
+             (-3.004848776596652, -1.590635214223557, -0.23294313392598154, -0.23294313392598154),
+             (-0.1764216518504617, -1.590635214223557, -0.23294313392598154, -4.232943133925982),
+             (-1.590635214223557, -3.004848776596652, -0.23294313392598154, -0.23294313392598154),
+             (-0.23294313392598154, -4.232943133925982, -1.8674470654813702, -0.2007803988147036),
+             (-1.590635214223557, -0.1764216518504617, -0.23294313392598154, -4.232943133925982),
+             (-4.232943133925982, -0.23294313392598154, -1.8674470654813702, -0.2007803988147036),
+             (-4.232943133925982, -0.23294313392598154, -0.2007803988147036, -1.8674470654813702),
+             (-0.23294313392598154, -4.232943133925982, -0.2007803988147036, -1.8674470654813702),
+             (-1.590635214223557, -0.1764216518504617, -4.232943133925982, -0.23294313392598154)]
 
             sage: l_roots = GR.limit_roots(2) # long time
             sage: for lr in l_roots: # long time
-            ....:     print(GR._rdf_vector(lr)) # long time
+            ....:     print(GR._rdf_vector(lr)) # long time abs tol 1e-14
             ....:
             (0.0, 1.0, 1.0, -0.0)
             (0.0, 1.0, -0.0, 1.0)
@@ -1705,10 +1698,13 @@ class GeometricRepresentationCoxeterGroup():
             (1.0, 0.0, -0.0, 1.0)
             (0.0, 0.0, 1.0, 0.2679491924311227)
         """
+        rdf_vector = v.change_ring(RDF)
+        rdf_vector.set_immutable()
+        return rdf_vector
         # This is a hack change to RDF once the problem is solve
-        complex_root = v.change_ring(CDF)
-        real_root = vector(RDF, [coord.real() for coord in complex_root])
-        return real_root
+        # complex_root = v.change_ring(CDF)
+        # real_root = vector(RDF, [coord.real() for coord in complex_root])
+        # return real_root
 
     @cached_method
     def _exact_root(self, root):   # NEVER USED???
@@ -1796,7 +1792,7 @@ class GeometricRepresentationCoxeterGroup():
         Putting ``exact=False`` will give more weights as computations are not
         exact. This may be useful if we just want to draw weights::
 
-            sage: [len(GR.weights(i,False)) for i in range(3)]
+            sage: [len(GR.weights(i,False)) for i in range(3)] # not tested
             [4, 16, 48]
 
         A finite example::
@@ -1878,7 +1874,8 @@ class GeometricRepresentationCoxeterGroup():
             {(-1/3, 1/3, -1/3, -1/3), (-1/3, -1/3, -1/3, 1/3), (-1/3, -1/3, 1/3, -1/3)}
             sage: [len(GR3.weights(i)) for i in range(5)]
             [4, 4, 12, 30, 84]
-            sage: [len(GR3.weights(i,False)) for i in range(5)]
+
+            sage: [len(GR3.weights(i,False)) for i in range(5)] # not tested
             [4, 8, 30, 91, 273]
         """
         if depth < 0:
@@ -2399,7 +2396,7 @@ class GeometricRepresentationCoxeterGroup():
         """
         return self.parabolic_limit_roots(length).union(self.hyperbolic_limit_roots(length))
 
-    def visualize_limit_roots(self, list_lengths, list_orbits=[0], limit_type=2, size=4, color=(1, 0, 0), color_simplex=(0, 1, 0)):
+    def visualize_limit_roots(self, list_lengths, list_orbits=[0], limit_type=2, size=4, color=(1, 0, 0), color_simplex=(0, 1, 0), isotropic=False, iso_color=(1, 1, 0)):
         r"""
         Return a graphical representation of limit roots
 
@@ -2423,6 +2420,11 @@ class GeometricRepresentationCoxeterGroup():
         - ``color`` : a color to give the limit roots (default: ``(1,0,0)``, red)
 
         - ``color_simplex`` : a color to give the limit roots (default: ``(0,1,0)``, green)
+
+        - ``isotropic`` : a boolean (default: ``False``), whether to plot the
+          isotropic cone in the infinite case
+
+        - ``iso_color`` : a color to give the isotropic cone (default: ``(1, 1, 0)``, yellow)
 
         OUTPUT:
 
@@ -2460,6 +2462,8 @@ class GeometricRepresentationCoxeterGroup():
         """
         if self._rank <= 4:
             img = Graphics()
+            if not self.is_finite() and isotropic:
+                img += self.visualize_isotropic_cone(color=iso_color)
             img += plot_simplex(self._rank, color_simplex)
             for length in list_lengths:
                 for orbit in list_orbits:
@@ -2681,7 +2685,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: DiHy = CoxeterMatrix([[1,-2],[-2,1]])
             sage: GRDiHy = GeometricRepresentationCoxeterGroup(DiHy)
             sage: img = GRDiHy.visualize_roots(range(2));img
-            Graphics object consisting of 7 graphics primitives
+            Graphics object consisting of 8 graphics primitives
 
         Rank 3 examples::
 
@@ -2703,12 +2707,12 @@ class GeometricRepresentationCoxeterGroup():
             sage: J3 = CoxeterMatrix([[1,6,2],[6,1,3],[2,3,1]])
             sage: GRJ3 = GeometricRepresentationCoxeterGroup(J3)
             sage: img = GRJ3.visualize_roots(range(10));img
-            Graphics object consisting of 37 graphics primitives
+            Graphics object consisting of 40 graphics primitives
 
             sage: K3 = CoxeterMatrix([[1,7,2],[7,1,3],[2,3,1]])
             sage: GRK3 = GeometricRepresentationCoxeterGroup(K3)
             sage: img = GRK3.visualize_roots(range(10));img
-            Graphics object consisting of 52 graphics primitives
+            Graphics object consisting of 55 graphics primitives
 
         Rank 4 examples::
 
@@ -2829,7 +2833,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: DiHy = CoxeterMatrix([[1,-2],[-2,1]])
             sage: GRDiHy = GeometricRepresentationCoxeterGroup(DiHy)
             sage: GRDiHy.visualize_weights(range(3))
-            Graphics object consisting of 9 graphics primitives
+            Graphics object consisting of 10 graphics primitives
 
         Rank 3 examples::
 
@@ -2841,7 +2845,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: M = CoxeterMatrix([[1,-10/9,oo],[-10/9,1,4],[oo,4,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
             sage: GR.visualize_weights(range(4))
-            Graphics object consisting of 28 graphics primitives
+            Graphics object consisting of 31 graphics primitives
 
         Rank 4 examples::
 
@@ -3023,13 +3027,17 @@ class GeometricRepresentationCoxeterGroup():
             raise NotImplementedError("rank >=5")
 
     @cached_method
-    def visualize_isotropic_cone(self, color=(1, 1, 0)):
+    def visualize_isotropic_cone(self, color=(1, 1, 0), color_simplex=(0, 1, 0), simplex=True):
         r"""
         Return a graphical representation of the isotropic cone
 
         INPUT:
 
         - ``color`` : a color (default= ``(1,1,0)``)
+
+        - ``color_simplex`` : a color to give the limit roots (default: ``(0,1,0)``, green)
+
+        - ``simplex`` : a boolean (default: ``True``), whether to plot the affine simplex
 
         OUTPUT:
 
@@ -3072,11 +3080,12 @@ class GeometricRepresentationCoxeterGroup():
                 image = point(list(center), size=8, rgbcolor=color)
                 if self._rank == 3:
                     image += circle(list(center), 0.01, rgbcolor=(0, 0, 0))
+                image += plot_simplex(self._rank, color_simplex)
                 return image
             else:
                 raise NotImplementedError("rank >=5")
         elif self._rank <= 4:
-            return self._draw_isotropic_cone_surface(color)
+            return self._draw_isotropic_cone_surface(color) + plot_simplex(self._rank, color_simplex)
         else:
             raise NotImplementedError("rank >=5")
 
