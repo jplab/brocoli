@@ -18,6 +18,10 @@ EXAMPLES::
     [ 1 -1 -1]
     [-1  1 -1]
     [-1 -1  1]
+
+It is possible to give algebraic numbers to change the bilinear form and the
+result depends on the input::
+
     sage: QF.<a> = QuadraticField(2)
     sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
     sage: M2 = CoxeterMatrix([[1,4,oo],[4,1,4],[oo,4,1]])
@@ -63,6 +67,33 @@ It is possible to specify a list of generators::
     sage: GR = GeometricRepresentationCoxeterGroup(M, generators=['a','b','c','d'])
     sage: GR.generators()
     ('a', 'b', 'c', 'd')
+
+One can compute some elements::
+
+    sage: GR.elements(1)
+    {[-1  2  2  2]
+    [ 0  1  0  0]
+    [ 0  0  1  0]
+    [ 0  0  0  1], [ 1  0  0  0]
+    [ 2 -1  2  2]
+    [ 0  0  1  0]
+    [ 0  0  0  1], [ 1  0  0  0]
+    [ 0  1  0  0]
+    [ 2  2 -1  2]
+    [ 0  0  0  1], [ 1  0  0  0]
+    [ 0  1  0  0]
+    [ 0  0  1  0]
+    [ 2  2  2 -1]}
+
+and some roots::
+
+    sage: GR.roots(1)
+    {(0, 2, 0, 1), (0, 0, 2, 1), (0, 2, 1, 0), (0, 1, 0, 2), (2, 0, 0, 1), (1, 0, 2, 0), (2, 1, 0, 0), (1, 2, 0, 0), (1, 0, 0, 2), (0, 1, 2, 0), (2, 0, 1, 0), (0, 0, 1, 2)}
+
+it is also possible to visualize the roots of depth 0, 1 and 2::
+
+    sage: GR.visualize_roots([0,1,2])
+    Graphics3d Object
 
 REFERENCES:
 
