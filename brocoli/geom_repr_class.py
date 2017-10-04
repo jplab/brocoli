@@ -264,15 +264,11 @@ def affinely_project_vector(vect, projection_space, affine_basis):
         ValueError: The vector (1, -4, 3) does not have an affine image in the affine basis
     """
     dim = len(affine_basis)
-    # There is a bug converting from UCF and AA to RDF
-    # height = CDF(sum(vect)).real()
     height = RDF(sum(vect))
 
     if height == 0:
         raise ValueError("The vector {} does not have an affine image in the affine basis".format(vect.__repr__()))
 
-#    Nvect = vect.parent()([i/sum(vect) for i in vect])
-    # Nvect = vector([CDF(i).real()/height for i in vect])
     Nvect = vector([RDF(i)/height for i in vect])
     image = projection_space(sum(Nvect[j]*affine_basis[j] for j in range(dim)))
 
@@ -415,6 +411,7 @@ class GeometricRepresentationCoxeterGroup():
 
         TESTS::
 
+            sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,oo,4],[oo,1,oo],[4,oo,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
             sage: TestSuite(GR).run(skip='_test_pickling')
@@ -1947,22 +1944,14 @@ class GeometricRepresentationCoxeterGroup():
             hyperbolic_elements = Set([])
 
             for element in self.elements(length):
-                # t0=timing.time()
                 if self._is_diagonalizable(element):
                     Eigenvalues = self._algebraic_eigenvalues(element)
                     if max([ev[0].norm() for ev in Eigenvalues]) > 1.01:  # Element is hyperbolic
-                    # if max([ev.abs() for ev in Eigenvalues])>1.01: #Element is hyperbolic, use with AA
                         hyperbolic_elements = hyperbolic_elements.union(Set([element]))
-                        # print "hyperbolic!"
                     else:  # Element is elliptic
                         elliptic_elements = elliptic_elements.union(Set([element]))
-                        # print "elliptic!"
                 else:  # Element is parabolic
                     parabolic_elements = parabolic_elements.union(Set([element]))
-                    # print "parabolic!"
-
-                # t1=timing.time()
-                # print "Done for an element:", t1-t0
 
         return elliptic_elements, parabolic_elements, hyperbolic_elements
 
@@ -2570,6 +2559,10 @@ class GeometricRepresentationCoxeterGroup():
             {(6.0, 1.0, 1.0, 1.0), (0.0, 1.0, 1.0, 1.0)}
             sage: len(GR2._compute_orbit_limit_roots(3,1,1))
             72
+
+        TODO:
+
+            Solve the approximation issue
         """
         if limit_type == 2:
             limit_roots = self.limit_roots(base_length)
