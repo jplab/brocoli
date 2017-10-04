@@ -1701,69 +1701,6 @@ class GeometricRepresentationCoxeterGroup():
         rdf_vector = v.change_ring(RDF)
         rdf_vector.set_immutable()
         return rdf_vector
-        # This is a hack change to RDF once the problem is solve
-        # complex_root = v.change_ring(CDF)
-        # real_root = vector(RDF, [coord.real() for coord in complex_root])
-        # return real_root
-
-    @cached_method
-    def _exact_root(self, root):   # NEVER USED???
-        r"""
-        Return an algebraic version of ``root``
-
-        INPUT:
-
-        - ``root`` : a vector corresponding to a root
-
-        OUTPUT:
-
-        - A vector over ``QQbar``
-
-        EXAMPLES::
-
-            sage: from brocoli import *
-            sage: M = CoxeterMatrix([[1,4,oo,oo],[4,1,oo,oo],[oo,oo,1,-2],[oo,oo,-2,1]])
-            sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: roots = GR.roots(2)
-            sage: for r in roots:
-            ....:     print(GR._exact_root(r))
-            ....:
-            (5.414213562373095? + 0.?e-18*I, 1, 0, 2)
-            (0, 3, 2, 0)
-            (1, 1.414213562373095? + 0.?e-18*I, 4.828427124746190? + 0.?e-18*I, 0)
-            (0, 10, 4, 1)
-            (2, 4.828427124746190? + 0.?e-18*I, 1, 0)
-            (4.828427124746190? + 0.?e-18*I, 2, 0, 1)
-            (2, 0, 3, 0)
-            (1, 0, 10, 2)
-            (0, 2, 8, 1)
-            (1.414213562373095? + 0.?e-18*I, 1, 4.828427124746190? + 0.?e-18*I, 0)
-            (0, 2, 3, 0)
-            (2, 0, 1, 8)
-            (1, 0, 2, 10)
-            (2, 4.828427124746190? + 0.?e-18*I, 0, 1)
-            (0, 1, 10, 2)
-            (1, 5.414213562373095? + 0.?e-18*I, 0, 2)
-            (5.414213562373095? + 0.?e-18*I, 1, 2, 0)
-            (1.414213562373095? + 0.?e-18*I, 1, 0, 4.828427124746190? + 0.?e-18*I)
-            (0, 0, 4, 15)
-            (0, 2, 0, 3)
-            (0, 0, 15, 4)
-            (0, 3, 0, 2)
-            (3, 0, 2, 0)
-            (1, 5.414213562373095? + 0.?e-18*I, 2, 0)
-            (0, 1, 2, 10)
-            (10, 0, 1, 4)
-            (2, 0, 0, 3)
-            (0, 2, 1, 8)
-            (0, 10, 1, 4)
-            (4.828427124746190? + 0.?e-18*I, 2, 1, 0)
-            (1, 1.414213562373095? + 0.?e-18*I, 0, 4.828427124746190? + 0.?e-18*I)
-            (10, 0, 4, 1)
-            (2, 0, 8, 1)
-            (3, 0, 0, 2)
-        """
-        return root.change_ring(QQbar)
 
     @cached_method
     def weights(self, depth, exact=True):
