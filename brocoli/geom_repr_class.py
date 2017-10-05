@@ -12,87 +12,142 @@ such as the Tits cone, the isotropic cone, the limit roots, and more.
 EXAMPLES::
 
     sage: from brocoli import *
-    sage: M = CoxeterMatrix([[1,oo,oo],[oo,1,oo],[oo,oo,1]])
-    sage: GR = GeometricRepresentationCoxeterGroup(M);GR
-    Geometric representation of a Coxeter group of rank 3 with Coxeter matrix
-    [ 1 -1 -1]
-    [-1  1 -1]
-    [-1 -1  1]
-
-It is possible to give algebraic numbers to change the bilinear form and the
-result depends on the input::
-
-    sage: QF.<a> = QuadraticField(2)
     sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
-    sage: M2 = CoxeterMatrix([[1,4,oo],[4,1,4],[oo,4,1]])
-    sage: M3 = CoxeterMatrix([[1,4,-2],[4,1,4],[-2,4,1]])
-    sage: M4 = CoxeterMatrix([[1,4,-1.5],[4,1,4],[-1.5,4,1]])
-    sage: M5 = CoxeterMatrix([[1,4,-3/2],[4,1,4],[-3/2,4,1]])
-    sage: M6 = CoxeterMatrix([[1,4,-3/2],[4,1,-a],[-3/2,-a,1]])
-    sage: M7 = CoxeterMatrix([[1,4,-1.5],[4,1,-a],[-1.5,-a,1]])
-    sage: for m in [M1,M2,M3,M4,M5,M6,M7]:
-    ....:     print(GeometricRepresentationCoxeterGroup(m).base_ring())
-    ....:
-    Universal Cyclotomic Field
-    Universal Cyclotomic Field
-    Universal Cyclotomic Field
-    Real Double Field
-    Universal Cyclotomic Field
-    Algebraic Field
-    Real Double Field
+    sage: GR1 = GeometricRepresentationCoxeterGroup(M1);GR1
+    Geometric representation of a Coxeter group of rank 3 with Coxeter matrix
+    [1 4 4]
+    [4 1 4]
+    [4 4 1]
 
-Without labels needing cyclotomic field::
+If the parameter ``exact`` is set to ``False``, then the representation is done in
+``RDF``::
 
-    sage: M1p = CoxeterMatrix([[1,3,3],[3,1,3],[3,3,1]])
-    sage: M2p = CoxeterMatrix([[1,3,oo],[3,1,3],[oo,3,1]])
-    sage: M3p = CoxeterMatrix([[1,3,-2],[3,1,3],[-2,3,1]])
-    sage: M4p = CoxeterMatrix([[1,3,-1.5],[3,1,3],[-1.5,3,1]])
-    sage: M5p = CoxeterMatrix([[1,3,-3/2],[3,1,3],[-3/2,3,1]])
-    sage: M6p = CoxeterMatrix([[1,3,-3/2],[3,1,-a],[-3/2,-a,1]])
-    sage: M7p = CoxeterMatrix([[1,3,-1.5],[3,1,-a],[-1.5,-a,1]])
-    sage: for m in [M1p,M2p,M3p,M4p,M5p,M6p,M7p]:
-    ....:     print(GeometricRepresentationCoxeterGroup(m).base_ring())
-    ....:
-    Rational Field
-    Rational Field
-    Rational Field
-    Real Double Field
-    Rational Field
-    Number Field in a with defining polynomial x^2 - 2
-    Real Double Field
+        sage: GR1rdf = GeometricRepresentationCoxeterGroup(M1,exact=False)
+        sage: GR1rdf.base_ring()
+        Real Double Field
+        sage: GR1.base_ring()
+        Universal Cyclotomic Field
 
-It is possible to specify a list of generators::
+It is possible to specify a the symbols (or alphabet) for the generators::
 
-    sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,oo,oo],[oo,oo,1,oo],[oo,oo,oo,1]])
-    sage: GR = GeometricRepresentationCoxeterGroup(M, generators=['a','b','c','d'])
-    sage: GR.generators()
+    sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,oo,oo],[oo,oo,1,oo],[oo,oo,oo,1]])
+    sage: GR2 = GeometricRepresentationCoxeterGroup(M2, generators=['a','b','c','d'])
+    sage: GR2.generators()
     ('a', 'b', 'c', 'd')
 
-One can compute some elements::
+The geometric representation uses a certain bilinear form::
 
-    sage: GR.elements(1)
-    {[-1  2  2  2]
+    sage: GR1.bilinear_form()
+    [                     1 -1/2*E(8) + 1/2*E(8)^3 -1/2*E(8) + 1/2*E(8)^3]
+    [-1/2*E(8) + 1/2*E(8)^3                      1 -1/2*E(8) + 1/2*E(8)^3]
+    [-1/2*E(8) + 1/2*E(8)^3 -1/2*E(8) + 1/2*E(8)^3                      1]
+    sage: GR2.bilinear_form()
+    [ 1 -1 -1 -1]
+    [-1  1 -1 -1]
+    [-1 -1  1 -1]
+    [-1 -1 -1  1]
+
+We can ask for the signature of the bilinear form::
+
+    sage: GR1.signature()
+    (2, 1, 0)
+    sage: GR2.signature()
+    (3, 1, 0)
+
+so both of them are Lorentzian; they act on Lorentz space::
+
+    sage: GR2.is_lorentzian()
+    True
+
+We can go from generators to their matrices::
+
+    sage: GR2.generator_to_reflection('a')
+    [-1  2  2  2]
     [ 0  1  0  0]
     [ 0  0  1  0]
-    [ 0  0  0  1], [ 1  0  0  0]
-    [ 2 -1  2  2]
-    [ 0  0  1  0]
-    [ 0  0  0  1], [ 1  0  0  0]
-    [ 0  1  0  0]
-    [ 2  2 -1  2]
-    [ 0  0  0  1], [ 1  0  0  0]
+    [ 0  0  0  1]
+    sage: GR2.simple_reflections()[0]
+    [-1  2  2  2]
     [ 0  1  0  0]
     [ 0  0  1  0]
-    [ 2  2  2 -1]}
+    [ 0  0  0  1]
 
-and some roots::
+One can compute some elements of length two (the first two)::
 
-    sage: GR.roots(1)
-    {(0, 2, 0, 1), (0, 0, 2, 1), (0, 2, 1, 0), (0, 1, 0, 2), (2, 0, 0, 1), (1, 0, 2, 0), (2, 1, 0, 0), (1, 2, 0, 0), (1, 0, 0, 2), (0, 1, 2, 0), (2, 0, 1, 0), (0, 0, 1, 2)}
+    sage: GR2.elements(2)[:2]
+    [
+    [ 1  0  0  0]  [ 3  6  6 -2]
+    [ 2 -1  2  2]  [ 0  1  0  0]
+    [ 0  0  1  0]  [ 0  0  1  0]
+    [ 6 -2  6  3], [ 2  2  2 -1]
+    ]
 
-it is also possible to visualize the roots of depth 0, 1 and 2::
+We can then ask for a reduced expression for an element that was obtained::
 
-    sage: GR.visualize_roots([0,1,2])
+    sage: GR2.matrix_to_word(GR2.elements(2)[0])
+    word: bd
+    sage: GR2.matrix_to_word(GR2.elements(2)[1])
+    word: da
+
+We can compute some roots::
+
+    sage: GR1.roots(1)
+    {(1, E(8) - E(8)^3, 0), (1, 0, E(8) - E(8)^3), (E(8) - E(8)^3, 1, 0), (E(8) - E(8)^3, 0, 1), (0, E(8) - E(8)^3, 1), (0, 1, E(8) - E(8)^3)}
+    sage: GR2.roots(1)[:5]
+    [(0, 2, 0, 1), (0, 0, 2, 1), (0, 2, 1, 0), (0, 1, 0, 2), (2, 0, 0, 1)]
+
+and some weights::
+
+    sage: GR1.fundamental_weights()
+    ((1 - E(8) + E(8)^3, -1, -1),
+     (-1, 1 - E(8) + E(8)^3, -1),
+     (-1, -1, 1 - E(8) + E(8)^3))
+    sage: GR2.fundamental_weights()
+    ((1/4, -1/4, -1/4, -1/4),
+     (-1/4, 1/4, -1/4, -1/4),
+     (-1/4, -1/4, 1/4, -1/4),
+     (-1/4, -1/4, -1/4, 1/4))
+
+Finally, we can visualize the isotropic cone::
+
+    sage: GR1.visualize_isotropic_cone()
+    Graphics object consisting of 4 graphics primitives
+    sage: GR2.visualize_isotropic_cone()
+    Graphics3d Object
+
+But that's a bit boring, so we can add roots::
+
+    sage: GR1.visualize_roots([0,1,2])
+    Graphics object consisting of 22 graphics primitives
+    sage: GR2.visualize_roots([0,1,2])
+    Graphics3d Object
+
+or weights::
+
+    sage: GR1.visualize_weights([0,1,2])
+    Graphics object consisting of 19 graphics primitives
+    sage: GR2.visualize_weights([0,1,2])
+    Graphics3d Object
+
+or limit roots::
+
+    sage: GR1.visualize_limit_roots([3,4,5])
+    Graphics object consisting of 51 graphics primitives
+    sage: GR2.visualize_limit_roots([2,3,4])
+    Graphics3d Object
+
+we can add the isotropic cone::
+
+    sage: GR1.visualize_limit_roots([3,4,5],isotropic=True)
+    Graphics object consisting of 55 graphics primitives
+    sage: GR2.visualize_limit_roots([2,3,4],isotropic=True)
+    Graphics3d Object
+
+and finally the Tits cone::
+
+    sage: GR1.visualize_tits_cone(2)
+    Graphics object consisting of 13 graphics primitives
+    sage: GR2.visualize_tits_cone(3)
     Graphics3d Object
 
 REFERENCES:
@@ -384,23 +439,56 @@ class GeometricRepresentationCoxeterGroup():
 
     - ``exact`` -- boolean keyword argument (default: ``True``); whether to do the
       computation in an exact ring.
+      
+    EXAMPLES::
+    
+    It is possible to give algebraic numbers to change the bilinear form and the
+    result depends on the input::
+
+        sage: from brocoli import *
+        sage: QF.<a> = QuadraticField(2)
+        sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
+        sage: M2 = CoxeterMatrix([[1,4,oo],[4,1,4],[oo,4,1]])
+        sage: M3 = CoxeterMatrix([[1,4,-2],[4,1,4],[-2,4,1]])
+        sage: M4 = CoxeterMatrix([[1,4,-1.5],[4,1,4],[-1.5,4,1]])
+        sage: M5 = CoxeterMatrix([[1,4,-3/2],[4,1,4],[-3/2,4,1]])
+        sage: M6 = CoxeterMatrix([[1,4,-3/2],[4,1,-a],[-3/2,-a,1]])
+        sage: M7 = CoxeterMatrix([[1,4,-1.5],[4,1,-a],[-1.5,-a,1]])
+        sage: for m in [M1,M2,M3,M4,M5,M6,M7]:
+        ....:     print(GeometricRepresentationCoxeterGroup(m).base_ring())
+        ....:
+        Universal Cyclotomic Field
+        Universal Cyclotomic Field
+        Universal Cyclotomic Field
+        Real Double Field
+        Universal Cyclotomic Field
+        Algebraic Field
+        Real Double Field
+
+    Without labels needing cyclotomic field::
+
+        sage: M1p = CoxeterMatrix([[1,3,3],[3,1,3],[3,3,1]])
+        sage: M2p = CoxeterMatrix([[1,3,oo],[3,1,3],[oo,3,1]])
+        sage: M3p = CoxeterMatrix([[1,3,-2],[3,1,3],[-2,3,1]])
+        sage: M4p = CoxeterMatrix([[1,3,-1.5],[3,1,3],[-1.5,3,1]])
+        sage: M5p = CoxeterMatrix([[1,3,-3/2],[3,1,3],[-3/2,3,1]])
+        sage: M6p = CoxeterMatrix([[1,3,-3/2],[3,1,-a],[-3/2,-a,1]])
+        sage: M7p = CoxeterMatrix([[1,3,-1.5],[3,1,-a],[-1.5,-a,1]])
+        sage: for m in [M1p,M2p,M3p,M4p,M5p,M6p,M7p]:
+        ....:     print(GeometricRepresentationCoxeterGroup(m).base_ring())
+        ....:
+        Rational Field
+        Rational Field
+        Rational Field
+        Real Double Field
+        Rational Field
+        Number Field in a with defining polynomial x^2 - 2
+        Real Double Field
 
     TESTS::
 
-        sage: from brocoli import *
         sage: S = [GeometricRepresentationCoxeterGroup(CM) for CM in CoxeterMatrix.samples()]
 
-    If ``exact`` is set to ``False``, then the representation is done in
-    ``RDF``::
-
-        sage: M = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
-        sage: GR = GeometricRepresentationCoxeterGroup(M,exact=False)
-        sage: GR.base_ring()
-        Real Double Field
-        sage: GR.bilinear_form()
-        [                1.0 -0.7071067811865475 -0.7071067811865475]
-        [-0.7071067811865475                 1.0 -0.7071067811865475]
-        [-0.7071067811865475 -0.7071067811865475                 1.0]
 
     """
 
@@ -2401,6 +2489,8 @@ class GeometricRepresentationCoxeterGroup():
             Graphics object consisting of 3 graphics primitives
             sage: img = GR1.visualize_limit_roots([3,4]);img # long time
             Graphics object consisting of 21 graphics primitives
+            sage: img = GR1.visualize_limit_roots([3,4],[0,1,2]);img # long time
+            Graphics object consisting of 183 graphics primitives
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,oo,oo],[oo,oo,1,oo],[oo,oo,oo,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
