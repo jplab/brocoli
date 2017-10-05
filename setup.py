@@ -22,7 +22,7 @@ setup(
     version = readfile("VERSION"), # the VERSION file is shared with the documentation
     description='A Sage package to work with limit roots of Coxeter groups',
     long_description = readfile("README"), # get the long description from the README
-    url='https://github.com/nthiery/sage_sample',
+    url='https://github.com/jplab/brocoli',
     author='Jean-Philippe Labbé',
     author_email='labbe@math.fu-berlin.de', # choose a main contact email
     license='GPLv2+', # This should be consistent with the LICENCE file

@@ -1,0 +1,3 @@
+include VERSION
+recursive-include docs/html *.html *.inv *.js *.css *.gif *.png
+include docs/pdf/brocoli.pdf
