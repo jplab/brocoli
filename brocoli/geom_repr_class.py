@@ -394,8 +394,6 @@ def plot_simplex(size, color=(0, 1, 0)):
         Graphics object consisting of 1 graphics primitive
         sage: plot_simplex(3)
         Graphics object consisting of 3 graphics primitives
-        sage: plot_simplex(4) # long time (4 seconds)
-        Graphics3d Object
         sage: plot_simplex(5)
         Traceback (most recent call last):
         ...
@@ -440,10 +438,9 @@ class GeometricRepresentationCoxeterGroup():
     - ``exact`` -- boolean keyword argument (default: ``True``); whether to do the
       computation in an exact ring.
       
-    EXAMPLES::
+    EXAMPLES:
     
-    It is possible to give algebraic numbers to change the bilinear form and the
-    result depends on the input::
+    To create a geometric representation, we start with Coxeter matrices::
 
         sage: from brocoli import *
         sage: QF.<a> = QuadraticField(2)
@@ -454,6 +451,12 @@ class GeometricRepresentationCoxeterGroup():
         sage: M5 = CoxeterMatrix([[1,4,-3/2],[4,1,4],[-3/2,4,1]])
         sage: M6 = CoxeterMatrix([[1,4,-3/2],[4,1,-a],[-3/2,-a,1]])
         sage: M7 = CoxeterMatrix([[1,4,-1.5],[4,1,-a],[-1.5,-a,1]])
+
+    depending on the Coxeter matrix, different base rings are chosen for the
+    representation. When some labels are integers greater or equal to 4, then
+    it uses the Universal Cyclotomic Field. If some other not rational labels
+    are given, then it tries to find the appropriate ring::
+
         sage: for m in [M1,M2,M3,M4,M5,M6,M7]:
         ....:     print(GeometricRepresentationCoxeterGroup(m).base_ring())
         ....:
@@ -465,7 +468,8 @@ class GeometricRepresentationCoxeterGroup():
         Algebraic Field
         Real Double Field
 
-    Without labels needing cyclotomic field::
+    There is a slightly different behavior if there are no labels that require
+    the Univeral Cyclotomic Field::
 
         sage: M1p = CoxeterMatrix([[1,3,3],[3,1,3],[3,3,1]])
         sage: M2p = CoxeterMatrix([[1,3,oo],[3,1,3],[oo,3,1]])
@@ -485,11 +489,21 @@ class GeometricRepresentationCoxeterGroup():
         Number Field in a with defining polynomial x^2 - 2
         Real Double Field
 
+    If the parameter ``exact`` is set to ``False``, then computations are done
+    in ``RDF``::
+
+        sage: GR1rdf = GeometricRepresentationCoxeterGroup(M1,exact=False);GR1rdf.base_ring()
+        Real Double Field
+
+    It is possible to specify a the symbols (or alphabet) for the generators::
+
+        sage: GR1 = GeometricRepresentationCoxeterGroup(M1, generators=['a','b','c'])
+        sage: GR1.generators()
+        ('a', 'b', 'c')
+
     TESTS::
 
         sage: S = [GeometricRepresentationCoxeterGroup(CM) for CM in CoxeterMatrix.samples()]
-
-
     """
 
     def __init__(self, coxeter_matrix, generators=None, exact=True):
@@ -624,8 +638,6 @@ class GeometricRepresentationCoxeterGroup():
             Universal Cyclotomic Field
             sage: GR5 = GeometricRepresentationCoxeterGroup(M5);GR5.base_ring()
             Number Field in a with defining polynomial x^2 - 2
-
-
         """
         return self._base_ring
 
