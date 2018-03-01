@@ -1,2 +1,1 @@
 sagemath >= 1.2.5
-sphinxcontrib-websupport >= 1.0.1
