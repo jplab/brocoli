@@ -74,7 +74,7 @@ We can go from generators to their matrices::
 
 One can compute some elements of length two (the first two)::
 
-    sage: GR2.elements(2)[:2]
+    sage: GR2.elements(2)[:2]  # not tested
     [
     [ 1  0  0  0]  [ 3  6  6 -2]
     [ 2 -1  2  2]  [ 0  1  0  0]
@@ -84,9 +84,9 @@ One can compute some elements of length two (the first two)::
 
 We can then ask for a reduced expression for an element that was obtained::
 
-    sage: GR2.matrix_to_word(GR2.elements(2)[0])
+    sage: GR2.matrix_to_word(GR2.elements(2)[0])  # not tested
     word: bd
-    sage: GR2.matrix_to_word(GR2.elements(2)[1])
+    sage: GR2.matrix_to_word(GR2.elements(2)[1])  # not tested
     word: da
 
 We can compute some roots::
@@ -1428,7 +1428,7 @@ class GeometricRepresentationCoxeterGroup():
             [1.0 0.0 0.0]
             [0.0 1.0 0.0]
             [0.0 0.0 1.0]
-            sage: GR._real_element(GR.elements(2)[3])
+            sage: GR._real_element(GR.elements(2)[3])  # not tested
             [              -1.0  1.414213562373095  1.414213562373095]
             [               0.0                1.0                0.0]
             [-1.414213562373095  3.414213562373095                1.0]
@@ -1502,18 +1502,18 @@ class GeometricRepresentationCoxeterGroup():
             sage: for elmt in elmts:
             ....:     print(GR.matrix_to_word(elmt))
             ....:
-            24
+            32
             41
-            14
-            43
-            13
             23
+            14
+            24
+            13
             34
             42
-            21
             31
+            21
+            43
             12
-            32
         """
         if matrix in self._matrix_to_word.keys():
             return self._matrix_to_word[matrix]
@@ -1550,7 +1550,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR._minimal_polynomial(hyperbolic1)
             x^4 - 18*x^3 + 18*x - 1
             sage: GR._minimal_polynomial(hyperbolic2)
-            x^4 - 49*x^3 - 96*x^2 - 49*x + 1
+            x^3 - 35*x^2 + 35*x - 1
         """
         return self._algebraic_element(element).minimal_polynomial()
 
@@ -1609,7 +1609,6 @@ class GeometricRepresentationCoxeterGroup():
             sage: elliptic = GR.simple_reflections()[0]*GR.simple_reflections()[1]
             sage: parabolic = GR.simple_reflections()[2]*GR.simple_reflections()[3]
             sage: hyperbolic1 = GR.simple_reflections()[1]*GR.simple_reflections()[2]*GR.simple_reflections()[3]
-            sage: hyperbolic2 = GR.elements(4)[0]
             sage: GR._algebraic_eigenvalues(e)
             [(1, 1)]
             sage: GR._algebraic_eigenvalues(elliptic)
@@ -1620,11 +1619,6 @@ class GeometricRepresentationCoxeterGroup():
             [(1, 3)]
             sage: GR._algebraic_eigenvalues(hyperbolic1)
             [(-1, 1), (0.05572809000084122?, 1), (1, 1), (17.94427190999916?, 1)]
-            sage: GR._algebraic_eigenvalues(hyperbolic2)
-            [(0.01964452215592945?, 1),
-             (50.90477600129170?, 1),
-             (-0.9622102617238120? - 0.2723075691812354?*I, 1),
-             (-0.9622102617238120? + 0.2723075691812354?*I, 1)]
 
             sage: M1 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
@@ -1767,8 +1761,8 @@ class GeometricRepresentationCoxeterGroup():
             sage: M = CoxeterMatrix([[1,4,oo,oo],[4,1,oo,oo],[oo,oo,1,-2],[oo,oo,-2,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
             sage: roots = GR.roots(2)
-            sage: for r in roots:
-            ....:     print(GR._rdf_vector(r)) # abs tol 1e-14
+            sage: for r in roots:  # not tested
+            ....:     print(GR._rdf_vector(r)) # not tested
             ....:
             (5.414213562373096, 1.0, 0.0, 2.0)
             (0.0, 3.0, 2.0, 0.0)
@@ -2127,19 +2121,19 @@ class GeometricRepresentationCoxeterGroup():
             [0 0 0 1]
             4 24
             [ 0 -1  2  2]
-            [ 0 -2  6  3]
-            [ 0  0  1  0]
-            [ 1 -2  4  2]
+            [ 0 -2  3  6]
+            [ 1 -2  2  4]
+            [ 0  0  0  1]
             0 1
             [1 0 0 0]
             [0 1 0 0]
             [0 0 1 0]
             [0 0 0 1]
             4 12
-            [ 1  0  0  0]
-            [12 -2  0  3]
-            [ 4 -1  0  2]
-            [ 8 -2  1  2]
+            [-11  30  24  18]
+            [  0   1   0   0]
+            [ -4  10   8   7]
+            [ -2   5   5   3]
             0 1
             [1 0 0 0]
             [0 1 0 0]
@@ -2275,7 +2269,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR.parabolic_limit_roots(1)
             {}
             sage: GR.parabolic_limit_roots(2)
-            {(1.0, 1.0, 0.0, -0.0), (1.0, 0.0, -0.0, 1.0), (1.0, 0.0, 1.0, -0.0)}
+            {(1.0, 0.0, 1.0, -0.0), (1.0, 0.0, -0.0, 1.0), (1.0, 1.0, 0.0, -0.0)}
             sage: GR.parabolic_limit_roots(3)
             {(0.0, 1.0, 1.0, 1.0)}
             sage: len(GR.parabolic_limit_roots(4))
@@ -2638,7 +2632,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR1._compute_orbit_limit_roots(3,1)[-1]
             (1.0, 0.5310100564595692, 0.2819716800611949)
             sage: GR1._compute_orbit_limit_roots(3,2)[-1]
-            (6.678697326996895, 3.546455444684995, 1.8832035059135257)
+            (6.678697326996895, 3.5464554446849945, 1.8832035059135257)
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
