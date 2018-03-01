@@ -30,17 +30,17 @@ class SageTest(TestCommand):
 if __name__ == "__main__":
 
     # The next block is needed if there are cython files
-    from setuptools import Extension
-    from Cython.Build import cythonize
-    import Cython.Compiler.Options
-    from sage.env import sage_include_directories
-
-    # Cython modules
-    ext_modules = [
-             Extension('brocoli.one_cython_file',
-             sources = [os.path.join('brocoli','one_cython_file.pyx')],
-             include_dirs=sage_include_directories())
-    ]
+    # from setuptools import Extension
+    # from Cython.Build import cythonize
+    # import Cython.Compiler.Options
+    # from sage.env import sage_include_directories
+    #
+    # # Cython modules
+    # ext_modules = [
+    #          Extension('brocoli.one_cython_file',
+    #          sources = [os.path.join('brocoli','one_cython_file.pyx')],
+    #          include_dirs=sage_include_directories())
+    # ]
 
     # Specify the required Sage version
     sage_required_version = '>=8.1'
