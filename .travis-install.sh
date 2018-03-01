@@ -26,5 +26,6 @@ else
   #SageMath/sage -i lrslib
   # To initialize matplotlib font manager
   $HOME/SageMath/sage -python -c 'import matplotlib.pyplot'
+  $HOME/SageMath/sage -c 'point([0,0], size=8, rgbcolor=(1,1,1))'
 fi
 

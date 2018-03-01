@@ -110,7 +110,7 @@ and some weights::
 
 Finally, we can visualize the isotropic cone::
 
-    sage: GR1.visualize_isotropic_cone()  # not tested
+    sage: GR1.visualize_isotropic_cone()
     Graphics object consisting of 4 graphics primitives
     sage: GR2.visualize_isotropic_cone()
     Graphics3d Object
