@@ -110,7 +110,7 @@ and some weights::
 
 Finally, we can visualize the isotropic cone::
 
-    sage: GR1.visualize_isotropic_cone()
+    sage: GR1.visualize_isotropic_cone()  # not tested
     Graphics object consisting of 4 graphics primitives
     sage: GR2.visualize_isotropic_cone()
     Graphics3d Object
@@ -2631,8 +2631,8 @@ class GeometricRepresentationCoxeterGroup():
             (1, 3.546455444684995?, 1.883203505913526?)
             sage: GR1._compute_orbit_limit_roots(3,1)[-1]
             (1.0, 0.5310100564595692, 0.2819716800611949)
-            sage: GR1._compute_orbit_limit_roots(3,2)[-1]
-            (6.678697326996895, 3.5464554446849945, 1.8832035059135257)
+            sage: GR1._compute_orbit_limit_roots(3,2)[-1].norm()  # abs tol 1e-14
+            7.7928685123936425
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
