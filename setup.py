@@ -61,7 +61,7 @@ if __name__ == "__main__":
         setup_requires = REQUIREMENTS, # currently useless, see https://www.python.org/dev/peps/pep-0518/
         install_requires = REQUIREMENTS, # This ensures that Sage is installed
         packages = ['brocoli'],
-        ext_modules = cythonize(ext_modules), # This line is only needed if there are cython files present
+        # ext_modules = cythonize(ext_modules), # This line is only needed if there are cython files present
         include_package_data = True,
         cmdclass = {'build': build, 'test': SageTest} # adding a special setup command for tests
     )

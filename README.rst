@@ -8,18 +8,13 @@ elements, roots, weights, and obtain properties of the representation. Further,
 it allows to visualize the isotropic cone, the roots, the weights, the limit
 roots, and the Tits cone in the affine space spanned by the simple roots.
 
-###############################################################################
-#
-#    This code's ultimate goal is to be merged into the Sagemath software.
-#    Some tickets related to this project:
-#
-#    http://trac.sagemath.org/ticket/17798
-#    http://trac.sagemath.org/ticket/16126
-#    http://trac.sagemath.org/ticket/15703
-#    http://trac.sagemath.org/ticket/16087
-#
-###############################################################################
+This code's ultimate goal is to be merged into the Sagemath software.
+Some tickets related to this project:
 
+ - http://trac.sagemath.org/ticket/17798
+ - http://trac.sagemath.org/ticket/16126
+ - http://trac.sagemath.org/ticket/15703
+ - http://trac.sagemath.org/ticket/16087
 
 Installation
 ------------
