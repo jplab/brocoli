@@ -21,7 +21,7 @@ setup(
     name = "brocoli",
     version = readfile("VERSION"), # the VERSION file is shared with the documentation
     description='A Sage package to work with limit roots of Coxeter groups',
-    long_description = readfile("README"), # get the long description from the README
+    long_description = readfile("README.rst"), # get the long description from the README
     url='https://github.com/jplab/brocoli',
     author='Jean-Philippe Labbé',
     author_email='labbe@math.fu-berlin.de', # choose a main contact email
