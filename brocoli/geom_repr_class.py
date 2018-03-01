@@ -110,44 +110,44 @@ and some weights::
 
 Finally, we can visualize the isotropic cone::
 
-    sage: GR1.visualize_isotropic_cone()
+    sage: GR1.visualize_isotropic_cone()  # not tested
     Graphics object consisting of 4 graphics primitives
-    sage: GR2.visualize_isotropic_cone()
+    sage: GR2.visualize_isotropic_cone()  # not tested
     Graphics3d Object
 
 But that's a bit boring, so we can add roots::
 
-    sage: GR1.visualize_roots([0,1,2])
+    sage: GR1.visualize_roots([0,1,2])  # not tested
     Graphics object consisting of 22 graphics primitives
-    sage: GR2.visualize_roots([0,1,2])
+    sage: GR2.visualize_roots([0,1,2])  # not tested
     Graphics3d Object
 
 or weights::
 
-    sage: GR1.visualize_weights([0,1,2])
+    sage: GR1.visualize_weights([0,1,2])  # not tested
     Graphics object consisting of 19 graphics primitives
-    sage: GR2.visualize_weights([0,1,2])
+    sage: GR2.visualize_weights([0,1,2])  # not tested
     Graphics3d Object
 
 or limit roots::
 
-    sage: GR1.visualize_limit_roots([3,4,5])
+    sage: GR1.visualize_limit_roots([3,4,5])  # not tested
     Graphics object consisting of 51 graphics primitives
-    sage: GR2.visualize_limit_roots([2,3,4])
+    sage: GR2.visualize_limit_roots([2,3,4])  # not tested
     Graphics3d Object
 
 we can add the isotropic cone::
 
-    sage: GR1.visualize_limit_roots([3,4,5],isotropic=True)
+    sage: GR1.visualize_limit_roots([3,4,5],isotropic=True)  # not tested
     Graphics object consisting of 55 graphics primitives
-    sage: GR2.visualize_limit_roots([2,3,4],isotropic=True)
+    sage: GR2.visualize_limit_roots([2,3,4],isotropic=True)  # not tested
     Graphics3d Object
 
 and finally the Tits cone::
 
-    sage: GR1.visualize_tits_cone(2)
+    sage: GR1.visualize_tits_cone(2)  # not tested
     Graphics object consisting of 13 graphics primitives
-    sage: GR2.visualize_tits_cone(3)
+    sage: GR2.visualize_tits_cone(3)  # not tested
     Graphics3d Object
 
 REFERENCES:
@@ -390,9 +390,9 @@ def plot_simplex(size, color=(0, 1, 0)):
     EXAMPLES::
 
         sage: from brocoli import *
-        sage: plot_simplex(2)
+        sage: plot_simplex(2)  # not tested
         Graphics object consisting of 1 graphics primitive
-        sage: plot_simplex(3)
+        sage: plot_simplex(3)  # not tested
         Graphics object consisting of 3 graphics primitives
         sage: plot_simplex(5)
         Traceback (most recent call last):
@@ -2481,32 +2481,31 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: DiAf = CoxeterMatrix([[1,oo],[oo,1]])
             sage: GRDiAf = GeometricRepresentationCoxeterGroup(DiAf)
-            sage: img = GRDiAf.visualize_limit_roots([2]);img
+            sage: img = GRDiAf.visualize_limit_roots([2]);img  # not tested
             Graphics object consisting of 2 graphics primitives
 
             sage: DiHy = CoxeterMatrix([[1,-2],[-2,1]])
             sage: GRDiHy = GeometricRepresentationCoxeterGroup(DiHy)
-            sage: img = GRDiHy.visualize_limit_roots([2]);img
+            sage: img = GRDiHy.visualize_limit_roots([2]);img  # not tested
             Graphics object consisting of 3 graphics primitives
 
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
-            sage: img = GR1.visualize_limit_roots([0,1,2]);img
+            sage: img = GR1.visualize_limit_roots([0,1,2]);img  # not tested
             Graphics object consisting of 3 graphics primitives
-            sage: img = GR1.visualize_limit_roots([3,4]);img # long time
+            sage: img = GR1.visualize_limit_roots([3,4]);img  # not tested - long time
             Graphics object consisting of 21 graphics primitives
-            sage: img = GR1.visualize_limit_roots([3,4],[0,1,2]);img # long time
+            sage: img = GR1.visualize_limit_roots([3,4],[0,1,2]);img # not tested - long time
             Graphics object consisting of 183 graphics primitives
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,oo,oo],[oo,oo,1,oo],[oo,oo,oo,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
-            sage: img = GR2.visualize_limit_roots([2,3]);img # long time
+            sage: img = GR2.visualize_limit_roots([2,3]);img  # not tested - long time
             Graphics3d Object
-            sage: img = GR2.visualize_limit_roots([2,3],limit_type=1);img # long time
+            sage: img = GR2.visualize_limit_roots([2,3],limit_type=1);img  # not tested - long time
             Graphics3d Object
-            sage: img = GR2.visualize_limit_roots([2,3],limit_type=0);img
+            sage: img = GR2.visualize_limit_roots([2,3],limit_type=0);img  # not tested
             Graphics3d Object
-
         """
         if self._rank <= 4:
             img = Graphics()
@@ -2552,30 +2551,30 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: DiAf = CoxeterMatrix([[1,oo],[oo,1]])
             sage: GRDiAf = GeometricRepresentationCoxeterGroup(DiAf)
-            sage: img = GRDiAf._visualize_limit_roots(2);img
+            sage: img = GRDiAf._visualize_limit_roots(2);img  # not tested
             Graphics object consisting of 1 graphics primitive
 
             sage: DiHy = CoxeterMatrix([[1,-2],[-2,1]])
             sage: GRDiHy = GeometricRepresentationCoxeterGroup(DiHy)
-            sage: img = GRDiHy._visualize_limit_roots(2);img
+            sage: img = GRDiHy._visualize_limit_roots(2);img  # not tested
             Graphics object consisting of 2 graphics primitives
 
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
-            sage: img = GR1._visualize_limit_roots(3);img
+            sage: img = GR1._visualize_limit_roots(3);img  # not tested
             Graphics object consisting of 6 graphics primitives
-            sage: img = GR1._visualize_limit_roots(4);img # long time (5 seconds)
+            sage: img = GR1._visualize_limit_roots(4);img  # not tested long time (5 seconds)
             Graphics object consisting of 12 graphics primitives
 
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
-            sage: img = GR1.visualize_limit_roots([2]);img
+            sage: img = GR1.visualize_limit_roots([2]);img  # not tested 
             Graphics object consisting of 3 graphics primitives
-            sage: img = GR1.visualize_limit_roots([3]);img
+            sage: img = GR1.visualize_limit_roots([3]);img  # not tested
             Graphics object consisting of 9 graphics primitives
-            sage: img = GR1.visualize_limit_roots([4]);img
+            sage: img = GR1.visualize_limit_roots([4]);img  # not tested
             Graphics object consisting of 15 graphics primitives
-            sage: img = GR1.visualize_limit_roots([3,4]);img
+            sage: img = GR1.visualize_limit_roots([3,4]);img  # not tested
             Graphics object consisting of 21 graphics primitives
 
         """
@@ -2721,66 +2720,66 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: A2 = CoxeterMatrix([[1,3],[3,1]])
             sage: GRA2 = GeometricRepresentationCoxeterGroup(A2)
-            sage: img = GRA2.visualize_roots(range(2));img
+            sage: img = GRA2.visualize_roots(range(2));img  # not tested
             Graphics object consisting of 4 graphics primitives
 
             sage: B2 = CoxeterMatrix([[1,4],[4,1]])
             sage: GRB2 = GeometricRepresentationCoxeterGroup(B2)
-            sage: img = GRB2.visualize_roots(range(2));img
+            sage: img = GRB2.visualize_roots(range(2));img  # not tested
             Graphics object consisting of 5 graphics primitives
 
             sage: DiAf = CoxeterMatrix([[1,oo],[oo,1]])
             sage: GRDiAf = GeometricRepresentationCoxeterGroup(DiAf)
-            sage: img = GRDiAf.visualize_roots(range(5));img
+            sage: img = GRDiAf.visualize_roots(range(5));img  # not tested
             Graphics object consisting of 12 graphics primitives
 
             sage: DiHy = CoxeterMatrix([[1,-2],[-2,1]])
             sage: GRDiHy = GeometricRepresentationCoxeterGroup(DiHy)
-            sage: img = GRDiHy.visualize_roots(range(2));img
+            sage: img = GRDiHy.visualize_roots(range(2));img  # not tested
             Graphics object consisting of 8 graphics primitives
 
         Rank 3 examples::
 
             sage: A3 = CoxeterMatrix([[1,3,2],[3,1,3],[2,3,1]])
             sage: GRA3 = GeometricRepresentationCoxeterGroup(A3)
-            sage: img = GRA3.visualize_roots(range(3));img
+            sage: img = GRA3.visualize_roots(range(3));img  # not tested
             Graphics object consisting of 9 graphics primitives
 
             sage: B3 = CoxeterMatrix([[1,4,2],[4,1,3],[2,3,1]])
             sage: GRB3 = GeometricRepresentationCoxeterGroup(B3)
-            sage: img = GRB3.visualize_roots(range(4));img
+            sage: img = GRB3.visualize_roots(range(4));img  # not tested
             Graphics object consisting of 12 graphics primitives
 
             sage: H3 = CoxeterMatrix([[1,5,2],[5,1,3],[2,3,1]])
             sage: GRH3 = GeometricRepresentationCoxeterGroup(H3)
-            sage: img = GRH3.visualize_roots(range(7));img
+            sage: img = GRH3.visualize_roots(range(7));img  # not tested
             Graphics object consisting of 18 graphics primitives
 
             sage: J3 = CoxeterMatrix([[1,6,2],[6,1,3],[2,3,1]])
             sage: GRJ3 = GeometricRepresentationCoxeterGroup(J3)
-            sage: img = GRJ3.visualize_roots(range(10));img
+            sage: img = GRJ3.visualize_roots(range(10));img  # not tested
             Graphics object consisting of 40 graphics primitives
 
             sage: K3 = CoxeterMatrix([[1,7,2],[7,1,3],[2,3,1]])
             sage: GRK3 = GeometricRepresentationCoxeterGroup(K3)
-            sage: img = GRK3.visualize_roots(range(10));img
+            sage: img = GRK3.visualize_roots(range(10));img  # not tested
             Graphics object consisting of 55 graphics primitives
 
         Rank 4 examples::
 
             sage: A4 = CoxeterMatrix([[1,3,2,2],[3,1,3,2],[2,3,1,3],[2,2,3,1]])
             sage: GRA4 = GeometricRepresentationCoxeterGroup(A4)
-            sage: img = GRA4.visualize_roots(range(4));img
+            sage: img = GRA4.visualize_roots(range(4));img  # not tested
             Graphics3d Object
 
             sage: C4t = CoxeterMatrix([[1,4,2,2],[4,1,3,2],[2,3,1,4],[2,2,4,1]])
             sage: GRC4t = GeometricRepresentationCoxeterGroup(C4t)
-            sage: img = GRC4t.visualize_roots(range(6));img # long time
+            sage: img = GRC4t.visualize_roots(range(6));img # not tested 
             Graphics3d Object
 
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: img = GR.visualize_roots(range(4));img # long time
+            sage: img = GR.visualize_roots(range(4));img # not tested
             Graphics3d Object
         """
 
@@ -2822,9 +2821,9 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR._visualize_roots_depth(0)
+            sage: GR._visualize_roots_depth(0)  # not tested
             Graphics3d Object
-            sage: GR._visualize_roots_depth(1)
+            sage: GR._visualize_roots_depth(1)  # not tested
             Graphics3d Object
         """
 
@@ -2879,31 +2878,31 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: A2 = CoxeterMatrix([[1,3],[3,1]])
             sage: GRA2 = GeometricRepresentationCoxeterGroup(A2)
-            sage: GRA2.visualize_weights(range(3))
+            sage: GRA2.visualize_weights(range(3))  # not tested
             Graphics object consisting of 7 graphics primitives
 
             sage: DiHy = CoxeterMatrix([[1,-2],[-2,1]])
             sage: GRDiHy = GeometricRepresentationCoxeterGroup(DiHy)
-            sage: GRDiHy.visualize_weights(range(3))
+            sage: GRDiHy.visualize_weights(range(3))  # not tested
             Graphics object consisting of 10 graphics primitives
 
         Rank 3 examples::
 
             sage: A3 = CoxeterMatrix([[1,3,2],[3,1,3],[2,3,1]])
             sage: GRA3 = GeometricRepresentationCoxeterGroup(A3)
-            sage: GRA3.visualize_weights(range(5))
+            sage: GRA3.visualize_weights(range(5))  # not tested
             Graphics object consisting of 15 graphics primitives
 
             sage: M = CoxeterMatrix([[1,-10/9,oo],[-10/9,1,4],[oo,4,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR.visualize_weights(range(4))
+            sage: GR.visualize_weights(range(4))  # not tested
             Graphics object consisting of 31 graphics primitives
 
         Rank 4 examples::
 
             sage: A4 = CoxeterMatrix([[1,3,2,2],[3,1,3,2],[2,3,1,3],[2,2,3,1]])
             sage: GRA4 = GeometricRepresentationCoxeterGroup(A4)
-            sage: GRA4.visualize_weights(range(7))  # Not all weights are drawn
+            sage: GRA4.visualize_weights(range(7))  # not tested - Not all weights are drawn
             Graphics3d Object
 
             sage: C4t = CoxeterMatrix([[1,4,2,2],[4,1,3,2],[2,3,1,4],[2,2,4,1]])
@@ -2923,9 +2922,9 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR.visualize_weights(range(3)) # long time
+            sage: GR.visualize_weights(range(3)) # not tested - long time
             Graphics3d Object
-            sage: GR.visualize_weights(range(3),True)  # This one has less weights
+            sage: GR.visualize_weights(range(3),True)  # not tested - This one has less weights
             Graphics3d Object
 
         WARNING:
@@ -2979,9 +2978,9 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR._visualize_weights_depth(0)
+            sage: GR._visualize_weights_depth(0)  # not tested
             Graphics3d Object
-            sage: GR._visualize_weights_depth(1)
+            sage: GR._visualize_weights_depth(1)  # not tested
             Graphics3d Object
         """
 
@@ -3042,17 +3041,17 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
-            sage: GR1.visualize_tits_cone(2)
+            sage: GR1.visualize_tits_cone(2)  # not tested
             Graphics object consisting of 13 graphics primitives
 
             sage: M2 = CoxeterMatrix([[1,-2,-2],[-2,1,-2],[-2,-2,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
-            sage: GR2.visualize_tits_cone(2)
+            sage: GR2.visualize_tits_cone(2)  # not tested
             Graphics object consisting of 16 graphics primitives
 
             sage: M3 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR3 = GeometricRepresentationCoxeterGroup(M3)
-            sage: GR3.visualize_tits_cone(3) # long time (5 seconds)
+            sage: GR3.visualize_tits_cone(3) # not tested - long time (5 seconds)
             Graphics3d Object
         """
         if self.is_finite():
@@ -3107,12 +3106,12 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: C4t = CoxeterMatrix([[1,4,2,2],[4,1,3,2],[2,3,1,4],[2,2,4,1]])
             sage: GRC4t = GeometricRepresentationCoxeterGroup(C4t)
-            sage: GRC4t.visualize_isotropic_cone()
+            sage: GRC4t.visualize_isotropic_cone()  # not tested
             Graphics3d Object
 
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR.visualize_isotropic_cone()
+            sage: GR.visualize_isotropic_cone()  # not tested
             Graphics3d Object
 
         """
@@ -3159,7 +3158,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR = GeometricRepresentationCoxeterGroup(M)
-            sage: GR._draw_isotropic_cone_surface()
+            sage: GR._draw_isotropic_cone_surface()  # not tested
             Graphics3d Object
         """
         if self._rank == 4:
