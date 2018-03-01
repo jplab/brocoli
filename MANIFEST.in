@@ -1,3 +1,3 @@
 include VERSION
 recursive-include docs/build/html *.html *.inv *.js *.css *.gif *.png
-include docs/build/pdf/brocoli.pdf
+include docs/build/latex/brocoli.pdf
