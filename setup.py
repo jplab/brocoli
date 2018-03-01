@@ -11,11 +11,11 @@ def readfile(filename):
         return f.read()
 
 # # For the tests
-# class SageTest(TestCommand):
-#     def run_tests(self):
-#         errno = os.system("sage -t --force-lib brocoli")
-#         if errno != 0:
-#             sys.exit(1)
+class SageTest(TestCommand):
+    def run_tests(self):
+        errno = os.system("sage -t --force-lib brocoli")
+        if errno != 0:
+            sys.exit(1)
 
 setup(
     name = "brocoli",
@@ -40,4 +40,5 @@ setup(
     ], # classifiers list: https://pypi.python.org/pypi?%3Aaction=list_classifiers
     keywords = "SageMath",
     packages = ['brocoli'],
+    cmdclass = {'build': build, 'test': SageTest} # adding a special setup command for tests
 )
