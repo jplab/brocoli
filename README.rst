@@ -16,6 +16,8 @@ Some tickets related to this project:
  - http://trac.sagemath.org/ticket/15703
  - http://trac.sagemath.org/ticket/16087
 
+You can find the complete documentation at https://jplab.github.io/brocoli/doc/html/
+
 Installation
 ------------
 
@@ -55,4 +57,7 @@ Once the package is installed, you can use it on Sage with::
 Documentation
 -------------
 
-There are two versions of the documentation located in the folder ``docs``. There is an ``html`` version with main page ``index.html`` and a ``pdf`` version.
+The complete documentation is available at https://jplab.github.io/brocoli/doc/html
+
+The ``html`` and ``pdf`` versions are also available in the ``docs/build``
+folder.
