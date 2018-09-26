@@ -2,7 +2,7 @@
 BRoCoLi - Package dealing with LImit ROots of COxeter groups (eternal Beta version)
 ===================================================================================
 
-.. image:: https://mybinder.org/badge.svg :target: https://mybinder.org/v2/gh/jplab/brocoli/master?filepath=demo.ipynb
+image:: https://mybinder.org/badge.svg :target: https://mybinder.org/v2/gh/jplab/brocoli/master?filepath=demo.ipynb
 
 This package deals with limits roots of infinite Coxeter groups and related structures.
 It allows to compute several related objects such as matrices representing the 
