@@ -204,8 +204,6 @@ from sage.rings.rational_field import QQ
 from sage.rings.qqbar import QQbar
 from sage.rings.real_double import RDF
 from sage.rings.real_mpfr import RR
-from sage.rings.complex_double import CDF
-from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.rings.universal_cyclotomic_field import UniversalCyclotomicField
 from sage.rings.infinity import Infinity as oo
 
@@ -437,9 +435,9 @@ class GeometricRepresentationCoxeterGroup():
 
     - ``exact`` -- boolean keyword argument (default: ``True``); whether to do the
       computation in an exact ring.
-      
+
     EXAMPLES:
-    
+
     To create a geometric representation, we start with Coxeter matrices::
 
         sage: from brocoli import *
@@ -2319,7 +2317,7 @@ class GeometricRepresentationCoxeterGroup():
             while not approx_problem and index < self._rank:
                 if new_lr[index] < 0:
                     approx_problem = True
-                    print "There was an approximation problem with the element", self._matrix_to_word[element]
+                    print("There was an approximation problem with the element", self._matrix_to_word[element])
                 index += 1
             if not approx_problem:
                 new_lr.set_immutable()
@@ -2568,7 +2566,7 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
-            sage: img = GR1.visualize_limit_roots([2]);img  # not tested 
+            sage: img = GR1.visualize_limit_roots([2]);img  # not tested
             Graphics object consisting of 3 graphics primitives
             sage: img = GR1.visualize_limit_roots([3]);img  # not tested
             Graphics object consisting of 9 graphics primitives
@@ -2774,7 +2772,7 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: C4t = CoxeterMatrix([[1,4,2,2],[4,1,3,2],[2,3,1,4],[2,2,4,1]])
             sage: GRC4t = GeometricRepresentationCoxeterGroup(C4t)
-            sage: img = GRC4t.visualize_roots(range(6));img # not tested 
+            sage: img = GRC4t.visualize_roots(range(6));img # not tested
             Graphics3d Object
 
             sage: M = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
@@ -3335,8 +3333,8 @@ class GeometricRepresentationCoxeterGroup():
         tikz_pic += '\t limdir/.style={fill=orange,draw=black,diamond},\n'
         tikz_pic += '\t weight/.style={fill=green,draw=black,diamond},\n'
         tikz_pic += '\t rotate=0]\n\n\n'
-        tikz_pic += '\def\size{0.0125}\n'
-        tikz_pic += '\def\simplesize{0.025}\n\n'
+        tikz_pic += r'\def\size{0.0125}\n'
+        tikz_pic += r'\def\simplesize{0.025}\n\n'
 
         projection_space = VectorSpace(RDF, 2)
         affine_basis = regular_simplex_vertices(2)
@@ -3345,7 +3343,7 @@ class GeometricRepresentationCoxeterGroup():
             bf = self.bilinear_form()
             pt = bf.kernel().basis()[0]
             center = affinely_project_vector(vector(pt), projection_space, affine_basis)
-            tikz_pic += '\\fill[red] (%s,%s) circle (\simplesize);\n\n' % (2*center[0], 2*center[1])
+            tikz_pic += r'\fill[red] (%s,%s) circle (\simplesize);\n\n' % (2*center[0], 2*center[1])
         elif isotropic:
             from sage.plot.misc import setup_for_eval_on_grid
             eq_lc = self._equation_light_cone_rank3()
@@ -3409,17 +3407,17 @@ class GeometricRepresentationCoxeterGroup():
                 projected_root = affinely_project_vector(self._rdf_vector(j), projection_space, affine_basis)
                 line_sgmt = ''
                 if i == 0:
-                    line_sgmt += '\\node[label=%s :{$%s$}] (%s) at (%s,%s) {};\n\\fill[simpleroot] (%s,%s) circle (\simplesize);\n' % (place[si_root], simple[si_root], name[si_root], 2*projected_root[0], 2*projected_root[1], 2*projected_root[0], 2*projected_root[1])
+                    line_sgmt += r'\node[label=%s :{$%s$}] (%s) at (%s,%s) {};\n\\fill[simpleroot] (%s,%s) circle (\simplesize);\n' % (place[si_root], simple[si_root], name[si_root], 2*projected_root[0], 2*projected_root[1], 2*projected_root[0], 2*projected_root[1])
                     si_root += 1
                 else:
                     if abs(sqrt(3)*projected_root[0]-projected_root[1]) < 0.01 or abs(-sqrt(3)*projected_root[0]+2*sqrt(3)-projected_root[1]) < 0.01 or abs(projected_root[1]) < 0.01:
-                        line_sgmt += '\\fill[root] (%s,%s) circle (\simplesize);\n' % (max(2*projected_root[0], 0.01), max(2*projected_root[1], 0.01))
+                        line_sgmt += r'\fill[root] (%s,%s) circle (\simplesize);\n' % (max(2*projected_root[0], 0.01), max(2*projected_root[1], 0.01))
                     else:
-                        line_sgmt += '\\fill[root] (%s,%s) circle (\size);\n' % (max(2*projected_root[0], 0.01), max(2*projected_root[1], 0.01))
+                        line_sgmt += r'\fill[root] (%s,%s) circle (\size);\n' % (max(2*projected_root[0], 0.01), max(2*projected_root[1], 0.01))
                 tikz_pic += line_sgmt
             tikz_pic += '\n'
             if i == 0:
-                tikz_pic += "\draw[green!75!black] (%s) -- (%s) -- (%s) -- (%s);\n\n" % (name[0], name[1], name[2], name[0])
+                tikz_pic += r"\draw[green!75!black] (%s) -- (%s) -- (%s) -- (%s);\n\n" % (name[0], name[1], name[2], name[0])
 
         for i in range_limitroots:
             for j in range_orbit:
