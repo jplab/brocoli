@@ -3407,7 +3407,7 @@ class GeometricRepresentationCoxeterGroup():
                 projected_root = affinely_project_vector(self._rdf_vector(j), projection_space, affine_basis)
                 line_sgmt = ''
                 if i == 0:
-                    line_sgmt += r'\node[label=%s :{$%s$}] (%s) at (%s,%s) {};\n\\fill[simpleroot] (%s,%s) circle (\simplesize);\n' % (place[si_root], simple[si_root], name[si_root], 2*projected_root[0], 2*projected_root[1], 2*projected_root[0], 2*projected_root[1])
+                    line_sgmt += r'\node[label=%s :{$%s$}] (%s) at (%s,%s) {};\n\fill[simpleroot] (%s,%s) circle (\simplesize);\n' % (place[si_root], simple[si_root], name[si_root], 2*projected_root[0], 2*projected_root[1], 2*projected_root[0], 2*projected_root[1])
                     si_root += 1
                 else:
                     if abs(sqrt(3)*projected_root[0]-projected_root[1]) < 0.01 or abs(-sqrt(3)*projected_root[0]+2*sqrt(3)-projected_root[1]) < 0.01 or abs(projected_root[1]) < 0.01:
