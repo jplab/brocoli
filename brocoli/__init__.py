@@ -30,4 +30,6 @@ You can also visualize:
 For rank 3 Coxeter groups, you can obtain tikzpicture of the above structures.
 
 """
-from geom_repr_class import *
+from __future__ import absolute_import
+
+from .geom_repr_class import *
