@@ -190,7 +190,7 @@ AUTHORS:
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 2 of the License, or
 # (at your option) any later version.
-#                  http://www.gnu.org/licenses/
+#                  https://www.gnu.org/licenses/
 ##############################################################################
 
 from sage.arith.srange import xsrange
@@ -208,14 +208,11 @@ from sage.rings.universal_cyclotomic_field import UniversalCyclotomicField
 from sage.rings.infinity import Infinity as oo
 
 from sage.calculus.var import var
-from sage.symbolic.all import i as I
 from sage.symbolic.relation import solve
 
 from sage.functions.other import sqrt
 from sage.functions.generalized import sign
 from sage.functions.trig import arctan
-
-from math import pi
 
 from sage.matrix.constructor import matrix
 from sage.modules.free_module_element import vector
@@ -467,7 +464,7 @@ class GeometricRepresentationCoxeterGroup():
         Real Double Field
 
     There is a slightly different behavior if there are no labels that require
-    the Univeral Cyclotomic Field::
+    the Universal Cyclotomic Field::
 
         sage: M1p = CoxeterMatrix([[1,3,3],[3,1,3],[3,3,1]])
         sage: M2p = CoxeterMatrix([[1,3,oo],[3,1,3],[oo,3,1]])
@@ -484,7 +481,7 @@ class GeometricRepresentationCoxeterGroup():
         Rational Field
         Real Double Field
         Rational Field
-        Number Field in a with defining polynomial x^2 - 2
+        Number Field in a with defining polynomial x^2 - 2 with a = 1.414213562373095?
         Real Double Field
 
     If the parameter ``exact`` is set to ``False``, then computations are done
@@ -635,7 +632,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR4 = GeometricRepresentationCoxeterGroup(M4);GR4.base_ring()
             Universal Cyclotomic Field
             sage: GR5 = GeometricRepresentationCoxeterGroup(M5);GR5.base_ring()
-            Number Field in a with defining polynomial x^2 - 2
+            Number Field in a with defining polynomial x^2 - 2 with a = 1.414213562373095?
         """
         return self._base_ring
 
@@ -1197,7 +1194,7 @@ class GeometricRepresentationCoxeterGroup():
             ev_signs = [sign(m.real()) for m in eigen_bilin_form.eigenvalues()]
             return (ev_signs.count(1), ev_signs.count(-1), ev_signs.count(0))
 
-    def is_finite(self):
+    def is_finite(self) -> bool:
         """
         Check if ``self`` is a geometric representation of a finite Coxeter group
 
@@ -1229,12 +1226,9 @@ class GeometricRepresentationCoxeterGroup():
 
         """
         sig = self.signature()
-        if sig[1] == 0 and sig[2] == 0:  # Finite type
-            return True
-        else:
-            return False
+        return sig[1] == 0 and sig[2] == 0:  # Finite type
 
-    def is_affine(self):
+    def is_affine(self) -> bool:
         """
         Check if ``self`` is a geometric representation of an affine Coxeter group
 
@@ -1268,12 +1262,9 @@ class GeometricRepresentationCoxeterGroup():
 
         """
         sig = self.signature()
-        if sig[1] == 0 and sig[2] == 1:  # Affine type
-            return True
-        else:
-            return False
+        return sig[1] == 0 and sig[2] == 1:  # Affine type
 
-    def is_lorentzian(self):
+    def is_lorentzian(self) -> bool:
         r"""
         Check if ``self`` is a geometric representation of a Lorentzian Coxeter group
 
@@ -1314,12 +1305,9 @@ class GeometricRepresentationCoxeterGroup():
             True
         """
         sig = self.signature()
-        if sig[1] == 1 and sig[2] == 0:  # Lorentzian type
-            return True
-        else:
-            return False
+        return sig[1] == 1 and sig[2] == 0:  # Lorentzian type
 
-    def is_degenerate_lorentzian(self):
+    def is_degenerate_lorentzian(self) -> bool:
         r"""
         Check if ``self`` is a geometric representation of a Lorentzian Coxeter group with a
         singular bilinear form
@@ -1335,10 +1323,7 @@ class GeometricRepresentationCoxeterGroup():
 
         """
         sig = self.signature()
-        if sig[1] == 1 and sig[2] > 0:  # Singular Lorentzian type
-            return True
-        else:
-            return False
+        return sig[1] == 1 and sig[2] > 0:  # Singular Lorentzian type
 
     @cached_method
     def elements(self, length):
@@ -1461,6 +1446,7 @@ class GeometricRepresentationCoxeterGroup():
             [ 1.414213562373095? + 0.?e-18*I  1.414213562373095? + 0.?e-18*I                              -1]
 
         .. NOTE::
+
             This is used to compute minimal polynomial and eigenvalues. The
             minimal polynomial can not be computed over the Cyclotomic Field
             yet.
@@ -1513,7 +1499,7 @@ class GeometricRepresentationCoxeterGroup():
             43
             12
         """
-        if matrix in self._matrix_to_word.keys():
+        if matrix.is_immutable() and matrix in self._matrix_to_word:
             return self._matrix_to_word[matrix]
         else:
             raise ValueError("the matrix was not computed before.")
@@ -2269,11 +2255,11 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR.parabolic_limit_roots(2)
             {(1.0, 0.0, 1.0, -0.0), (1.0, 0.0, -0.0, 1.0), (1.0, 1.0, 0.0, -0.0)}
             sage: GR.parabolic_limit_roots(3)
-            {(0.0, 1.0, 1.0, 1.0)}
+            {(0, 1.0, 1.0, 1.0)}
             sage: len(GR.parabolic_limit_roots(4))
             10
 
-        TODO:
+        .. TODO::
 
             Make this method more robust and not return vectors of symbolic
             ring
@@ -2642,7 +2628,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: len(GR2._compute_orbit_limit_roots(3,0))
             19
             sage: GR2._compute_orbit_limit_roots(3,0,0)
-            {(0.0, 1.0, 1.0, 1.0)}
+            {(0, 1.0, 1.0, 1.0)}
             sage: len(GR2._compute_orbit_limit_roots(3,0,1))
             18
             sage: len(GR2._compute_orbit_limit_roots(3,1))
@@ -2652,7 +2638,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: len(GR2._compute_orbit_limit_roots(3,1,1))
             72
 
-        TODO:
+        .. TODO::
 
             Solve the approximation issue
         """
