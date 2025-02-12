@@ -1,16 +1,17 @@
-## -*- encoding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 import os
 import sys
-import re
 from setuptools import setup
-from codecs import open # To open the README file with proper encoding
-from setuptools.command.test import test as TestCommand # for tests
+from codecs import open  # To open the README file with proper encoding
+from setuptools.command.test import test as TestCommand  # for tests
 from distutils.command import build as build_module
+
 
 # Get information from separate files (README, VERSION)
 def readfile(filename):
-    with open(filename,  encoding='utf-8') as f:
+    with open(filename, encoding='utf-8') as f:
         return f.read()
+
 
 # Check the right Sage version
 class build(build_module.build):
@@ -26,6 +27,7 @@ class SageTest(TestCommand):
         errno = os.system("sage -t --force-lib brocoli brocoli/*.pyx")
         if errno != 0:
             sys.exit(1)
+
 
 if __name__ == "__main__":
 
@@ -63,5 +65,5 @@ if __name__ == "__main__":
         packages = ['brocoli'],
         # ext_modules = cythonize(ext_modules), # This line is only needed if there are cython files present
         include_package_data = True,
-        cmdclass = {'build': build, 'test': SageTest} # adding a special setup command for tests
+        cmdclass = {'build': build, 'test': SageTest}  # adding a special setup command for tests
     )

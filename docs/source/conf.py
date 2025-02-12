@@ -30,7 +30,6 @@ except ImportError:
     raise RuntimeError("to build the documentation you need to be inside a Sage shell (run first the command 'sage -sh' in a shell")
 
 
-
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -67,7 +66,6 @@ source_suffix = '.rst'
 
 # The master toctree document.
 master_doc = 'index'
-
 
 
 # The version info for the project you're documenting, acts as replacement for
@@ -233,7 +231,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  ('index', package_name + '.tex', u'Documentation of ' + unicode(package_name),
+  ('index', package_name + '.tex', u'Documentation of ' + str(package_name),
    authors, 'manual'),
 ]
 
@@ -263,7 +261,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', package_name, unicode(package_name) + u" documentation",
+    ('index', package_name, str(package_name) + " documentation",
      [authors], 1)
 ]
 
@@ -277,7 +275,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', package_name, unicode(package_name) + u" documentation",
+  ('index', package_name, str(package_name) + " documentation",
    authors, package_name, project,
    'Miscellaneous'),
 ]
@@ -313,27 +311,29 @@ if (os.environ.get('SAGE_DOC_MATHJAX', 'no') != 'no'
 
     from pkg_resources import Requirement, working_set
     sagenb_path = working_set.find(Requirement.parse('sagenb')).location
-    mathjax_relative = os.path.join('sagenb','data','mathjax')
+    mathjax_relative = os.path.join('sagenb', 'data', 'mathjax')
 
     # It would be really nice if sphinx would copy the entire mathjax directory,
     # (so we could have a _static/mathjax directory), rather than the contents of the directory
 
     mathjax_static = os.path.join(sagenb_path, mathjax_relative)
     html_static_path.append(mathjax_static)
-    exclude_patterns=['**/'+os.path.join(mathjax_relative, i) for i in ('docs', 'README*', 'test',
+    exclude_patterns = ['**/' + os.path.join(mathjax_relative, i) for i in ('docs', 'README*', 'test',
                                                                         'unpacked', 'LICENSE')]
 else:
-     extensions.append('sphinx.ext.pngmath')
+    extensions.append('sphinx.ext.pngmath')
 
 # This is to make the verbatim font smaller;
 # Verbatim environment is not breaking long lines
 from sphinx.highlighting import PygmentsBridge
 from pygments.formatters.latex import LatexFormatter
 
+
 class CustomLatexFormatter(LatexFormatter):
     def __init__(self, **options):
         super(CustomLatexFormatter, self).__init__(**options)
         self.verboptions = r"formatcom=\footnotesize"
+
 
 PygmentsBridge.latex_formatter = CustomLatexFormatter
 
