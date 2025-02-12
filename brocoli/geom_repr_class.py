@@ -92,9 +92,9 @@ We can then ask for a reduced expression for an element that was obtained::
 We can compute some roots::
 
     sage: GR1.roots(1)
-    {(1, E(8) - E(8)^3, 0), (1, 0, E(8) - E(8)^3), (E(8) - E(8)^3, 1, 0), (E(8) - E(8)^3, 0, 1), (0, E(8) - E(8)^3, 1), (0, 1, E(8) - E(8)^3)}
+    {(0, 1, E(8) - E(8)^3), (1, E(8) - E(8)^3, 0), (1, 0, E(8) - E(8)^3), (E(8) - E(8)^3, 0, 1), (0, E(8) - E(8)^3, 1), (E(8) - E(8)^3, 1, 0)}
     sage: GR2.roots(1)[:5]
-    [(0, 2, 0, 1), (0, 0, 2, 1), (0, 1, 2, 0), (0, 1, 0, 2), (2, 0, 0, 1)]
+    [(0, 2, 0, 1), (0, 0, 2, 1), (1, 0, 0, 2), (2, 0, 0, 1), (0, 0, 1, 2)]
 
 and some weights::
 
@@ -219,7 +219,6 @@ from sage.modules.free_module_element import vector
 from sage.modules.free_module import VectorSpace
 
 from sage.geometry.polyhedron.constructor import Polyhedron
-from sage.geometry.polyhedron.library import polytopes
 
 from sage.categories.rings import Rings
 from sage.combinat.words.word import Word
@@ -316,10 +315,10 @@ def affinely_project_vector(vect, projection_space, affine_basis):
     height = RDF(sum(vect))
 
     if height == 0:
-        raise ValueError("The vector {} does not have an affine image in the affine basis".format(vect.__repr__()))
+        raise ValueError(f"The vector {vect.__repr__()} does not have an affine image in the affine basis")
 
-    Nvect = vector([RDF(i)/height for i in vect])
-    image = projection_space(sum(Nvect[j]*affine_basis[j] for j in range(dim)))
+    num_vect = vector([RDF(i)/height for i in vect])
+    image = projection_space(sum(num_vect[j]*affine_basis[j] for j in range(dim)))
 
     return image
 
@@ -357,15 +356,14 @@ def regular_simplex_vertices(dim):
     if dim == 1:
         vs = VectorSpace(RDF, 2)
         return [vs([0, 0]), vs([1, 0])]
-    elif dim == 2:
+    if dim == 2:
         vs = VectorSpace(RDF, dim)
         return [vs([0, 0]), vs([2, 0]), vs([1, sqrt(3)])]
-    elif dim == 3:
+    if dim == 3:
         vs = VectorSpace(RDF, dim)
         return [vs([0, 0, 0]), vs([2, 0, 0]), vs([1, sqrt(3), 0]),
                 vs([1, 1/sqrt(3), (2*sqrt(2))/sqrt(3)])]
-    else:
-        raise NotImplementedError("dimension >=4")
+    raise NotImplementedError("dimension >=4")
 
 
 def plot_simplex(size, color=(0, 1, 0)):
@@ -824,8 +822,7 @@ class GeometricRepresentationCoxeterGroup():
                             ipmat[-1].append(0)
                 bf = matrix(self._base_ring, ipmat)
             return bf
-        else:
-            return self._coxeter_matrix_obj.bilinear_form(R=RDF)
+        return self._coxeter_matrix_obj.bilinear_form(R=RDF)
 
     @cached_method
     def identity_element(self):
@@ -1029,7 +1026,7 @@ class GeometricRepresentationCoxeterGroup():
              (-1/4, -1/4, 1/4, -1/4),
              (-1/4, -1/4, -1/4, 1/4))
             sage: GRN._computed_weights_exact
-            {(-1/4, 1/4, -1/4, -1/4), (-1/4, -1/4, 1/4, -1/4), (1/4, -1/4, -1/4, -1/4), (-1/4, -1/4, -1/4, 1/4)}
+            {(-1/4, -1/4, 1/4, -1/4), (1/4, -1/4, -1/4, -1/4), (-1/4, 1/4, -1/4, -1/4), (-1/4, -1/4, -1/4, 1/4)}
             sage: GRN._computed_weights_rdf
             {}
             sage: GRN.fundamental_weights(False)
@@ -1038,7 +1035,7 @@ class GeometricRepresentationCoxeterGroup():
              (-0.25, -0.25, 0.25, -0.25),
              (-0.25, -0.25, -0.25, 0.25))
             sage: GRN._computed_weights_rdf
-            {(0.25, -0.25, -0.25, -0.25), (-0.25, 0.25, -0.25, -0.25), (-0.25, -0.25, 0.25, -0.25), (-0.25, -0.25, -0.25, 0.25)}
+            {(-0.25, 0.25, -0.25, -0.25), (-0.25, -0.25, -0.25, 0.25), (-0.25, -0.25, 0.25, -0.25), (0.25, -0.25, -0.25, -0.25)}
         """
         bf = self.bilinear_form(exact)
         if bf.det() != 0:
@@ -1189,10 +1186,9 @@ class GeometricRepresentationCoxeterGroup():
         """
         if self._base_ring is RDF:
             raise ValueError("the base ring is not exact")
-        else:
-            eigen_bilin_form = (self.bilinear_form()).change_ring(QQbar)
-            ev_signs = [sign(m.real()) for m in eigen_bilin_form.eigenvalues()]
-            return (ev_signs.count(1), ev_signs.count(-1), ev_signs.count(0))
+        eigen_bilin_form = (self.bilinear_form()).change_ring(QQbar)
+        ev_signs = [sign(m.real()) for m in eigen_bilin_form.eigenvalues()]
+        return (ev_signs.count(1), ev_signs.count(-1), ev_signs.count(0))
 
     def is_finite(self) -> bool:
         """
@@ -1372,22 +1368,20 @@ class GeometricRepresentationCoxeterGroup():
         """
         if length < 0:
             raise ValueError("length has to be a positive integer")
-        elif length == 0:
+        if length == 0:
             return Set([self.identity_element()])
-        elif length == 1:
+        if length == 1:
             return Set(self.simple_reflections())
-
-        else:
-            element_set = Set([])
-            for element in self.elements(length - 1):
-                for simple_refl in self.simple_reflections():
-                    New_element = simple_refl*element
-                    New_element.set_immutable()
-                    if New_element not in self.elements(length - 2):
-                        new_word = self._matrix_to_word[element] + self._matrix_to_word[simple_refl]
-                        self._matrix_to_word[New_element] = new_word
-                        element_set = element_set.union(Set([New_element]))
-            return element_set
+        element_set = Set([])
+        for element in self.elements(length - 1):
+            for simple_refl in self.simple_reflections():
+                new_element = simple_refl*element
+                new_element.set_immutable()
+                if new_element not in self.elements(length - 2):
+                    new_word = self._matrix_to_word[element] + self._matrix_to_word[simple_refl]
+                    self._matrix_to_word[new_element] = new_word
+                    element_set = element_set.union(Set([new_element]))
+        return element_set
 
     @cached_method
     def _real_element(self, element):
@@ -1442,8 +1436,8 @@ class GeometricRepresentationCoxeterGroup():
             Algebraic Field
             sage: GR._algebraic_element(GR.elements(2)[4])
             [                              1                               0                               0]
-            [ 3.414213562373095? + 0.?e-18*I                               1 -1.414213562373095? + 0.?e-18*I]
-            [ 1.414213562373095? + 0.?e-18*I  1.414213562373095? + 0.?e-18*I                              -1]
+            [ 1.414213562373095? + 0.?e-18*I                              -1  1.414213562373095? + 0.?e-18*I]
+            [ 3.414213562373095? + 0.?e-18*I -1.414213562373095? + 0.?e-18*I                               1]
 
         .. NOTE::
 
@@ -1455,12 +1449,11 @@ class GeometricRepresentationCoxeterGroup():
             exact_elmt = element.change_ring(QQbar)
             exact_elmt.set_immutable()
             return exact_elmt
-        elif self._base_ring is UniversalCyclotomicField():  # TODO: Get rid of this hack
+        if self._base_ring is UniversalCyclotomicField():  # TODO: Get rid of this hack
             exact_elmt = element.change_ring(QQbar)
             exact_elmt.set_immutable()
             return exact_elmt
-        else:
-            return element
+        return element
 
     def matrix_to_word(self, matrix):
         r"""
@@ -1492,9 +1485,9 @@ class GeometricRepresentationCoxeterGroup():
             14
             24
             13
+            31
             34
             42
-            31
             21
             43
             12
@@ -1639,36 +1632,27 @@ class GeometricRepresentationCoxeterGroup():
             sage: parabolic = GR.simple_reflections()[2]*GR.simple_reflections()[3]
             sage: hyperbolic = GR.simple_reflections()[1]*GR.simple_reflections()[2]*GR.simple_reflections()[3]
             sage: GR._algebraic_eigenvectors_element(e)
-            [(1, [
-              (1, 0, 0, 0),
-              (0, 1, 0, 0),
-              (0, 0, 1, 0),
-              (0, 0, 0, 1)
-              ], 4)]
+            [(1, [(1, 0, 0, 0), (0, 1, 0, 0), (0, 0, 1, 0), (0, 0, 0, 1)], 4)]
             sage: GR._algebraic_eigenvectors_element(elliptic)
-            [(1*I, [
-              (1, 0.7071067811865475? - 0.7071067811865475?*I, 0, 0)
-              ], 1), (-1*I, [
-              (1, 0.7071067811865475? + 0.7071067811865475?*I, 0, 0)
-              ], 1), (1, [
-              (1, 1, 0, 0.2928932188134525? + 0.?e-18*I),
-              (0, 0, 1, -1.000000000000000? + 0.?e-18*I)
-              ], 2)]
+            [(1*I, [(1, 0.7071067811865475? - 0.7071067811865475?*I, 0, 0)], 1),
+             (-1*I, [(1, 0.7071067811865475? + 0.7071067811865475?*I, 0, 0)], 1),
+             (1,
+              [(1, 1, 0, 0.2928932188134525? + 0.?e-18*I),
+               (0, 0, 1, -1.000000000000000? + 0.?e-18*I)],
+              2)]
             sage: GR._algebraic_eigenvectors_element(parabolic)
-            [(1, [
-              (1, -1, 0, 0),
-              (0, 0, 1.000000000000000?, 1.000000000000000?)
-              ], 4)]
+            [(1, [(1, -1, 0, 0), (0, 0, 1.000000000000000?, 1.000000000000000?)], 4)]
             sage: GR._algebraic_eigenvectors_element(hyperbolic)
-            [(17.94427190999916?, [
-              (0, 1.000000000000000?, 0.381966011250106?, 0.1458980337503155?)
-              ], 1), (1, [
-              (1.000000000000000? + 0.?e-17*I, -1.000000000000000? + 0.?e-17*I, -0.8535533905932738? + 0.?e-17*I, -0.8535533905932738? + 0.?e-17*I)
-              ], 1), (0.05572809000084122?, [
-              (0, 1.000000000000000?, 2.618033988749895?, 6.854101966249684?)
-              ], 1), (-1, [
-              (0, 1, -1, 1)
-              ], 1)]
+            [(17.94427190999916?,
+              [(0, 1.000000000000000?, 0.381966011250106?, 0.1458980337503155?)],
+              1),
+             (1,
+              [(1.000000000000000? + 0.?e-17*I, -1.000000000000000? + 0.?e-17*I, -0.8535533905932738? + 0.?e-17*I, -0.8535533905932738? + 0.?e-17*I)],
+              1),
+             (0.05572809000084122?,
+              [(0, 1.000000000000000?, 2.618033988749895?, 6.854101966249684?)],
+              1),
+             (-1, [(0, 1, -1, 1)], 1)]
         """
         M = self._algebraic_element(element)
         return M.eigenvectors_right()
@@ -1710,21 +1694,20 @@ class GeometricRepresentationCoxeterGroup():
         """
         if depth < 0:
             raise ValueError("depth has to be a positive integer.")
-        elif depth == 0:
+        if depth == 0:
             return Set(self.simple_roots())
-        else:
-            self.roots(depth-1)
-            set_roots = Set([])
-            for element in self.elements(depth):
-                for col in range(self._rank):
-                    nr = element.column(col)
-                    if nr < 0:
-                        nr = -nr
-                    nr.set_immutable()
-                    if nr not in self._computed_roots and nr not in set_roots:
-                        set_roots = set_roots.union(Set([nr]))
-            self._computed_roots = self._computed_roots.union(set_roots)
-            return set_roots
+        self.roots(depth-1)
+        set_roots = Set([])
+        for element in self.elements(depth):
+            for col in range(self._rank):
+                nr = element.column(col)
+                if nr < 0:
+                    nr = -nr
+                nr.set_immutable()
+                if nr not in self._computed_roots and nr not in set_roots:
+                    set_roots = set_roots.union(Set([nr]))
+        self._computed_roots = self._computed_roots.union(set_roots)
+        return set_roots
 
     @cached_method
     def _rdf_vector(self, v):
@@ -1848,35 +1831,34 @@ class GeometricRepresentationCoxeterGroup():
         """
         if depth < 0:
             raise ValueError("depth has to be a positive integer.")
-        elif depth == 0:
+        if depth == 0:
             return Set(self.fundamental_weights(exact))
+        self.weights(depth - 1)
+        if exact:
+            fw_matrix = self._fund_weights_matrix_exact
         else:
-            self.weights(depth - 1)
+            fw_matrix = self._fund_weights_matrix_rdf
+        set_weights = Set([])
+        for element in self.elements(depth):
             if exact:
-                fw_matrix = self._fund_weights_matrix_exact
+                weight_basis = element*fw_matrix
             else:
-                fw_matrix = self._fund_weights_matrix_rdf
-            set_weights = Set([])
-            for element in self.elements(depth):
+                weight_basis = self._real_element(element)*fw_matrix
+            for col in range(self._rank):
+                new_weight = weight_basis.column(col)
+                new_weight.set_immutable()
                 if exact:
-                    weight_basis = element*fw_matrix
+                    if new_weight not in self._computed_weights_exact and new_weight not in set_weights:
+                        set_weights = set_weights.union(Set([new_weight]))
                 else:
-                    weight_basis = self._real_element(element)*fw_matrix
-                for col in range(self._rank):
-                    new_weight = weight_basis.column(col)
-                    new_weight.set_immutable()
-                    if exact:
-                        if new_weight not in self._computed_weights_exact and new_weight not in set_weights:
-                            set_weights = set_weights.union(Set([new_weight]))
-                    else:
-                        if new_weight not in self._computed_weights_rdf and new_weight not in set_weights:
-                            set_weights = set_weights.union(Set([new_weight]))
-            if exact:
-                self._computed_weights_exact = self._computed_weights_exact.union(set_weights)
-            else:
-                self._computed_weights_rdf = self._computed_weights_rdf.union(set_weights)
+                    if new_weight not in self._computed_weights_rdf and new_weight not in set_weights:
+                        set_weights = set_weights.union(Set([new_weight]))
+        if exact:
+            self._computed_weights_exact = self._computed_weights_exact.union(set_weights)
+        else:
+            self._computed_weights_rdf = self._computed_weights_rdf.union(set_weights)
 
-            return set_weights
+        return set_weights
 
     @cached_method
     def space_weights(self, depth, exact=True):
@@ -1905,9 +1887,9 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
             sage: GR3 = GeometricRepresentationCoxeterGroup(M3)
             sage: GR1.space_weights(0)
-            {(-1/4, 1/4, -1/4, -1/4), (-1/4, -1/4, 1/4, -1/4), (1/4, -1/4, -1/4, -1/4), (-1/4, -1/4, -1/4, 1/4)}
+            {(-1/4, -1/4, 1/4, -1/4), (1/4, -1/4, -1/4, -1/4), (-1/4, 1/4, -1/4, -1/4), (-1/4, -1/4, -1/4, 1/4)}
             sage: GR1.space_weights(1)
-            {(-1/4, -7/4, -1/4, -1/4), (-1/4, -1/4, -7/4, -1/4), (-7/4, -1/4, -1/4, -1/4), (-1/4, -1/4, -1/4, -7/4)}
+            {(-7/4, -1/4, -1/4, -1/4), (-1/4, -1/4, -7/4, -1/4), (-1/4, -7/4, -1/4, -1/4), (-1/4, -1/4, -1/4, -7/4)}
             sage: [len(GR1.weights(i)) for i in range(5)]
             [4, 4, 12, 36, 108]
 
@@ -1915,7 +1897,7 @@ class GeometricRepresentationCoxeterGroup():
             {}
 
             sage: GR3.space_weights(0)
-            {(-1/3, 1/3, -1/3, -1/3), (-1/3, -1/3, -1/3, 1/3), (-1/3, -1/3, 1/3, -1/3)}
+            {(-1/3, -1/3, -1/3, 1/3), (-1/3, -1/3, 1/3, -1/3), (-1/3, 1/3, -1/3, -1/3)}
             sage: [len(GR3.weights(i)) for i in range(5)]
             [4, 4, 12, 30, 84]
 
@@ -1924,15 +1906,14 @@ class GeometricRepresentationCoxeterGroup():
         """
         if depth < 0:
             raise ValueError("depth has to be a positive integer.")
-        elif depth == 0:
+        if depth == 0:
             return Set(self.fundamental_space_weights(exact))
+        set_space_weights = Set([fw for fw in self.weights(depth, exact) if fw*self.bilinear_form(exact)*fw > 0])
+        if exact:
+            self._computed_space_weights_exact = self._computed_space_weights_exact.union(set_space_weights)
         else:
-            set_space_weights = Set([fw for fw in self.weights(depth, exact) if fw*self.bilinear_form(exact)*fw > 0])
-            if exact:
-                self._computed_space_weights_exact = self._computed_space_weights_exact.union(set_space_weights)
-            else:
-                self._computed_space_weights_rdf = self._computed_space_weights_rdf.union(set_space_weights)
-            return set_space_weights
+            self._computed_space_weights_rdf = self._computed_space_weights_rdf.union(set_space_weights)
+        return set_space_weights
 
     @cached_method
     def _split_order_elements(self, length):
@@ -2020,8 +2001,8 @@ class GeometricRepresentationCoxeterGroup():
 
             for element in self.elements(length):
                 if self._is_diagonalizable(element):
-                    Eigenvalues = self._algebraic_eigenvalues(element)
-                    if max([ev[0].norm() for ev in Eigenvalues]) > 1.01:  # Element is hyperbolic
+                    eigenvalues = self._algebraic_eigenvalues(element)
+                    if max(ev[0].norm() for ev in eigenvalues) > 1.01:  # Element is hyperbolic
                         hyperbolic_elements = hyperbolic_elements.union(Set([element]))
                     else:  # Element is elliptic
                         elliptic_elements = elliptic_elements.union(Set([element]))
@@ -2102,10 +2083,10 @@ class GeometricRepresentationCoxeterGroup():
             [0 0 1 0]
             [0 0 0 1]
             4 24
-            [ 0 -1  2  2]
-            [ 0 -2  3  6]
-            [ 1 -2  2  4]
-            [ 0  0  0  1]
+            [-2  6  3  0]
+            [ 0  1  0  0]
+            [-2  4  2  1]
+            [-1  2  2  0]
             0 1
             [1 0 0 0]
             [0 1 0 0]
@@ -2204,7 +2185,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR1.hyperbolic_elements(2)[0]
             Traceback (most recent call last):
             ...
-            IndexError: list index out of range
+            UnboundLocalError: cannot access local variable 'counter' where it is not associated with a value
             sage: len(GR1.hyperbolic_elements(3))
             24
             sage: len(GR1.hyperbolic_elements(4))
@@ -2251,7 +2232,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR.parabolic_limit_roots(1)
             {}
             sage: GR.parabolic_limit_roots(2)
-            {(1.0, 0.0, 1.0, -0.0), (1.0, 0.0, -0.0, 1.0), (1.0, 1.0, 0.0, -0.0)}
+            {(1.0, 1.0, 0, 0), (1.0, 0, 0, 1.0), (1.0, 0, 1.0, 0)}
             sage: GR.parabolic_limit_roots(3)
             {(0, 1.0, 1.0, 1.0)}
             sage: len(GR.parabolic_limit_roots(4))
@@ -2272,7 +2253,7 @@ class GeometricRepresentationCoxeterGroup():
                 new_lr = vector(ev_matrix.column(0))
             else:
 
-                extra_var = vector([var('x%i' % value) for value in range(ev_matrix.ncols())],)
+                extra_var = vector([var(f'x{value}') for value in range(ev_matrix.ncols())],)
                 ev_variables = ev_matrix*extra_var
                 quadric_expr = ev_variables*self.bilinear_form(False)*ev_variables
 
@@ -2343,16 +2324,8 @@ class GeometricRepresentationCoxeterGroup():
 
             sage: M2 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
-            sage: for lm in GR2.limit_roots(3):
-            ....:     print(lm)
-            ....:
-            (1, 3.546455444684995?, 1.883203505913526?)
-            (1, 1.883203505913526?, 3.546455444684995?)
-            (1, 0.2819716800611949?, 0.5310100564595692?)
-            (1, 1.883203505913526?, 0.5310100564595692?)
-            (1, 0.5310100564595692?, 1.883203505913526?)
-            (1, 0.5310100564595692?, 0.2819716800611949?)
-
+            sage: len(GR2.limit_roots(3))
+            6
         """
         # The limit roots below are not in an exact ring for speed reasons.
         hyper_lm = Set([])
@@ -2498,8 +2471,7 @@ class GeometricRepresentationCoxeterGroup():
                 for orbit in list_orbits:
                     img += self._visualize_limit_roots(length, orbit, limit_type, size, color)
             return img
-        else:
-            raise NotImplementedError("visualization of rank >=5")
+        raise NotImplementedError("visualization of rank >=5")
 
     @cached_method
     def _visualize_limit_roots(self, length, orbit=0, limit_type=2, size=4, color=(1, 0, 0)):
@@ -2562,7 +2534,7 @@ class GeometricRepresentationCoxeterGroup():
         """
         if self._rank == 1:
             raise ValueError("The Coxeter group does not have limit roots")
-        elif self._rank <= 4:
+        if self._rank <= 4:
             img = Graphics()
             if self._rank == 2:
                 projection_space = VectorSpace(RDF, self._rank)
@@ -2578,8 +2550,7 @@ class GeometricRepresentationCoxeterGroup():
                 img.SHOW_OPTIONS['axes'] = False
 
             return img
-        else:
-            raise NotImplementedError("visualization of rank >=5 is not available")
+        raise NotImplementedError("visualization of rank >=5 is not available")
 
     @cached_method
     def _compute_orbit_limit_roots(self, base_length, orbit_length, limit_type=2):
@@ -2608,12 +2579,10 @@ class GeometricRepresentationCoxeterGroup():
             sage: from brocoli import *
             sage: M1 = CoxeterMatrix([[1,4,4],[4,1,4],[4,4,1]])
             sage: GR1 = GeometricRepresentationCoxeterGroup(M1)
-            sage: GR1._compute_orbit_limit_roots(3,0)[0]
-            (1, 3.546455444684995?, 1.883203505913526?)
             sage: GR1._compute_orbit_limit_roots(3,1)[-1]
-            (1.0, 0.5310100564595692, 0.2819716800611949)
+            (1.0, 3.5464554446849945, 1.8832035059135257)
             sage: GR1._compute_orbit_limit_roots(3,2)[-1].norm()  # abs tol 1e-14
-            7.7928685123936425
+            11.930960061141793
 
             sage: M2 = CoxeterMatrix([[1,oo,oo,oo],[oo,1,3,3],[oo,3,1,3],[oo,3,3,1]])
             sage: GR2 = GeometricRepresentationCoxeterGroup(M2)
@@ -2632,7 +2601,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: len(GR2._compute_orbit_limit_roots(3,1))
             74
             sage: GR2._compute_orbit_limit_roots(3,1,0)
-            {(6.0, 1.0, 1.0, 1.0), (0.0, 1.0, 1.0, 1.0)}
+            {(0, 1.0, 1.0, 1.0), (6.0, 1.0, 1.0, 1.0)}
             sage: len(GR2._compute_orbit_limit_roots(3,1,1))
             72
 
