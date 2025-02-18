@@ -207,8 +207,8 @@ from sage.rings.real_mpfr import RR
 from sage.rings.universal_cyclotomic_field import UniversalCyclotomicField
 from sage.rings.infinity import Infinity as oo
 
-from sage.calculus.var import var
 from sage.symbolic.relation import solve
+from sage.symbolic.ring import SR
 
 from sage.functions.other import sqrt
 from sage.functions.generalized import sign
@@ -2253,7 +2253,7 @@ class GeometricRepresentationCoxeterGroup():
                 new_lr = vector(ev_matrix.column(0))
             else:
 
-                extra_var = vector([var(f'x{value}') for value in range(ev_matrix.ncols())],)
+                extra_var = vector([SR.var(f'x{value}') for value in range(ev_matrix.ncols())],)
                 ev_variables = ev_matrix*extra_var
                 quadric_expr = ev_variables*self.bilinear_form(False)*ev_variables
 
@@ -3112,6 +3112,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GR._draw_isotropic_cone_surface()  # not tested
             Graphics3d Object
         """
+        a, b, c = SR.var("a, b, c")
         if self._rank == 4:
             eq_lc = self._equation_light_cone_rank4()
             image = implicit_plot3d(eq_lc == 0, (a, -0.5, 2.1), (b, -0.5, 2.1), (c, -0.5, 2.1), aspect_ratio=1, rgbcolor=color, opacity=0.2)
@@ -3154,7 +3155,7 @@ class GeometricRepresentationCoxeterGroup():
               1],
              [1.0, 2]]
         """
-        a, b, c = var('a b c')
+        a, b, c = SR.var('a b c')
 
         v = vector([1-a-b-c, a, b, c])
         vect = v*self.bilinear_form(False)*v.column()
@@ -3190,7 +3191,7 @@ class GeometricRepresentationCoxeterGroup():
              [0.09763107293781749*sqrt(3)*b - 2.111111111111111, 1],
              [1.0555555555555556, 2]]
         """
-        a, b = var('a b')
+        a, b = SR.var('a b')
         v = vector([1-a-b, a, b])
         vect = v*self.bilinear_form(False)*v.column()
         my_eq = vect[0]
@@ -3217,7 +3218,7 @@ class GeometricRepresentationCoxeterGroup():
             sage: GRDiHy._equation_light_cone_rank2()
             (3.0*a - 2.0)*a - (a - 1)*(-3.0*a + 1.0)
         """
-        a = var('a')
+        a = SR.var('a')
         v = vector([1-a, a])
         vect = v*self.bilinear_form(False)*v.column()
         my_eq = vect[0]
@@ -3272,6 +3273,7 @@ class GeometricRepresentationCoxeterGroup():
             \node[limit,inner sep=1pt] at (2.35114381286,2.06826137522) {};
             \node[limit,inner sep=1pt] at (0.900982021125,0.792578618065) {};
         """
+        a, b = SR.var("a, b")
 
         if self._rank != 3:
             raise ValueError("The representation does not have rank 3")
@@ -3390,8 +3392,8 @@ class GeometricRepresentationCoxeterGroup():
 
         limdir_set = Set([])
 
-        x, y, z = var('x y z')
-        p = var('p')
+        x, y, z = SR.var('x y z')
+        p = SR.var('p')
         var_vector = vector([x, y, z])
         positive_cone = Polyhedron(rays=[[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 
